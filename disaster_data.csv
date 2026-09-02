@@ -1,0 +1,151 @@
+Message,Disaster,Urgency,Assistance
+"Water entering ground floor in Andheri East, plz send boat.",Flood,High,"evacuation, rescue boat"
+"Severe waterlogging at Hindmata, cars submerged, people stuck on roof.",Flood,Critical,"search and rescue, temporary shelter"
+"The river near our village is overflowing, fields are completely underwater.",Flood,Medium,temporary shelter
+"Heavy rains since morning, drain outside society is overflowing, foul smell.",Flood,Low,municipal cleanup
+"Need rescue at Varthur lake road, water is chest deep now.",Flood,Critical,rescue team
+"Stranded at Dadar station, tracks are full of water, no trains.",Flood,Medium,evacuation
+"Water level rising in our basement parking, all bikes submerged.",Flood,Medium,pumping equipment
+"Flash warning in the valley, we are moving to higher ground but need tents.",Flood,High,"temporary shelter, supply delivery"
+"Old age home in Chennai surrounded by water, they have no power.",Flood,Critical,"rescue team, medical assistance"
+"Plz help, my cattle are washing away in the heavy currents near the canal.",Flood,High,animal rescue
+"Continious downpour. The bridge over the nullah is gone, village cut off.",Flood,High,"rescue team, supply delivery"
+"Our apartment compound is fully blocked by muddy water, no drinking water left.",Flood,Medium,supply delivery
+"Heavy rain in Pune, Mutha river crossing danger mark.",Flood,High,evacuation warning
+"Water entering my house in slum area, we are sitting on the roof.",Flood,Critical,rescue team
+"Gutter overflowing on MG Road, very unhygenic, traffic jammed.",Flood,Low,municipal cleanup
+"Two kids fell in the open flooded drain, locals trying to find them!",Flood,Critical,"search and rescue, medical assistance"
+"Need urgent airlift, entire district is submerged, people on rooftops.",Flood,Critical,"airlift, mass rescue"
+"Ground floor shops are ruined, muddy sludge everywhere after yesterday's rain.",Flood,Low,relief funding
+"Stuck in my car on highway, water is rising fast inside the cabin.",Flood,Critical,emergency rescue
+"Constant rain. Our mud house might collapse from the dampness.",Flood,High,temporary shelter
+"Boat needed in Kerala backwaters, 10 families stranded without food.",Flood,High,rescue boat
+"We r stuck in office, outer ring road is a river right now.",Flood,Medium,evacuation
+"Dam gates opened, water gushing into our coastal village.",Flood,Critical,mass evacuation
+"Knee deep water in the vegetable market, all produce ruined.",Flood,Low,municipal assistance
+"Pls send help, elderly grandfather cannot walk through the chest-high water.",Flood,Critical,"rescue team, medical assistance"
+"Main road washed away due to mountain streams, completely blocked.",Flood,High,"traffic diversion, road repair"
+"Rain water mixed with sewage entering our homes on the ground floor.",Flood,Medium,municipal cleanup
+"Help! Trapped on the first floor, ground floor is completely gone under water.",Flood,High,rescue team
+"Monsoon streams have washed away the only wooden bridge to our hamlet.",Flood,High,"supply delivery, temporary repair"
+"Need drinking water and blankets for 50 people displaced by the rising river.",Flood,Medium,relief supplies
+"Massive smoke coming from the chemical factory in MIDC.",Fire,Critical,"fire brigade, hazmat response"
+"Spark in the electric meter box on the ground floor, it's caught flame.",Fire,High,"fire brigade, electricity board"
+"Cylinder blast in the nearby chawl, huge flames!",Fire,Critical,"fire brigade, medical assistance"
+"AC caught flame in my bedroom, we ran out but it's spreading.",Fire,High,fire brigade
+"Small kitchen mishap, we put the flames out with water but lot of smoke.",Fire,Low,ventilation
+"The godown next to our house is burning, highly flammable stuff inside.",Fire,Critical,"fire brigade, evacuation"
+"Car engine smoking and ignited on the expressway.",Fire,High,"fire brigade, traffic police"
+"Short circuit in the local train compartment, people are panicking.",Fire,Critical,"fire brigade, railway authorities"
+"Garbage dump burning since two days, toxic fumes everywhere.",Fire,Medium,"fire brigade, municipal authority"
+"School lab experiment went wrong, kids are evacuated but building is burning.",Fire,High,fire brigade
+"Flames broke out in the shopping mall, some people might be trapped on 3rd floor.",Fire,Critical,"search and rescue, fire brigade"
+"Forest ablaze spreading near our village border.",Fire,High,"forest department, fire brigade"
+"Diwali cracker landed on our balcony awning, it's lit up.",Fire,Medium,fire brigade
+"Thick black smoke from the tyre market, very hard to breathe.",Fire,High,fire brigade
+"Need fire engine urgent, wooden furniture shop burning in crowded lane.",Fire,Critical,"fire brigade, evacuation"
+"We smell burning plastic in the lift shaft, power is out.",Fire,Medium,"fire brigade, building maintenance"
+"Transformer blew up, boiling oil burning in the middle of the street.",Fire,High,"fire brigade, electricity board"
+"Bakery oven malfunctioned, employees are out but shop is engulfed.",Fire,High,fire brigade
+"Plz help, my neighbors house is full of smoke and door is locked from inside!",Fire,Critical,"fire brigade, forced entry rescue"
+"Bus engine caught flame on the highway, passengers escaped but need to extinguish it.",Fire,Medium,fire brigade
+"Pandal caught flame due to halogen light, spreading fast across the cloth.",Fire,Critical,"fire brigade, mass evacuation"
+"Small electrical spark in office server room, halon system activated.",Fire,Low,fire inspection
+"Sparks from welding caused the scaffolding net to ignite at the construction site.",Fire,High,fire brigade
+"Dry grass in the empty plot next to my house is burning rapidly.",Fire,Medium,fire brigade
+"Cotton godown ablaze, it's spreading to nearby residential buildings.",Fire,Critical,"mass evacuation, fire brigade"
+"Flames started in the slum area, 5 huts already destroyed.",Fire,Critical,"fire brigade, temporary shelter"
+"Electric pole is throwing sparks and burning outside my apartment.",Fire,Medium,"electricity board, fire brigade"
+"Restaurant kitchen exhaust burning uncontrollably.",Fire,High,fire brigade
+"Two-wheeler caught flame after accident, rider is safe.",Fire,Low,fire brigade
+"Flames in the hospital ICU ward! Patients need immediate shifting.",Fire,Critical,"mass evacuation, fire brigade, ambulances"
+"Huge tremors felt just now, our apartment building is swaying!",Earthquake,High,"evacuation, building inspection"
+"The ceiling fan is shaking violently, we are running out of the house.",Earthquake,Medium,evacuation
+"Massive quake, multiple buildings collapsed in our neighborhood.",Earthquake,Critical,"search and rescue, heavy machinery"
+"Big crack appeared on our living room wall after the shaking stopped.",Earthquake,Medium,building inspection
+"People buried under debris at the construction site due to the tremor.",Earthquake,Critical,"search and rescue, medical assistance"
+"Strong seismic activity, the roads have cracked open in several places.",Earthquake,High,"traffic diversion, infrastructure inspection"
+"Aftershocks continuing, we are all sleeping in the open playground.",Earthquake,Low,temporary shelter
+"The old temple tower just collapsed from the ground vibrations.",Earthquake,High,search and rescue
+"Glass windows shattered everywhere on the street after the tremor.",Earthquake,Medium,hazard clearance
+"My sister is trapped under a fallen roof pillar, please send help!",Earthquake,Critical,"search and rescue, ambulance"
+"Ground shook for 30 seconds, plaster fell from the roof.",Earthquake,Low,building inspection
+"Bridge structure looks compromised after the quake, do not let cars pass!",Earthquake,High,"traffic blockade, structural inspection"
+"Landslide triggered by tremors has blocked the mountain pass.",Earthquake,High,"road clearance, rescue team"
+"We are stuck on the 15th floor, the stairs are damaged from the shaking.",Earthquake,Critical,specialized rescue
+"The ground is rumbling again! Second aftershock in an hour.",Earthquake,Medium,evacuation warning
+"Entire village flattened by the quake, hundreds of injured people.",Earthquake,Critical,"mass rescue, medical camps, relief supplies"
+"Bookcases and cupboards fell over, thankfully no one hurt.",Earthquake,Low,damage assessment
+"Water tank on the roof burst during the shaking, flooding the stairs.",Earthquake,Medium,"building maintenance, structural inspection"
+"Gas line ruptured during the quake, strong smell of gas everywhere.",Earthquake,Critical,"evacuation, gas utility team"
+"Need heavy earthmovers, a 3-story building sank into the ground.",Earthquake,Critical,"heavy rescue machinery, search and rescue"
+"The tremors were so strong that the ceiling collapsed in our classroom.",Earthquake,High,"search and rescue, medical assistance"
+"Mild shaking felt, dogs are barking, no visible damage.",Earthquake,Low,monitor situation
+"Our houses are mostly mud, half of them crumbled in the vibrations.",Earthquake,High,"temporary shelter, rescue team"
+"Epicenter must be close, the roar and shaking was terrifying, walls cracked.",Earthquake,Medium,building inspection
+"High-rise is tilting slightly after the violent seismic waves.",Earthquake,Critical,immediate mass evacuation
+"Metro services stopped, we were in the tunnel when the ground shook.",Earthquake,High,"underground rescue, evacuation"
+"Cracks on the dam wall noticed after the severe tectonic shift.",Earthquake,Critical,"dam inspection, downstream evacuation"
+"Need stretchers, many people injured by falling bricks in the market.",Earthquake,Critical,"medical assistance, rescue team"
+"TV and fridge fell, whole house is a mess from the shaking.",Earthquake,Low,damage assessment
+"We heard a loud rumble and the earth shook, a large fissure opened up.",Earthquake,High,"cordon off area, geological inspection"
+"My father just collapsed and isn't breathing, need an ambulance NOW.",Medical Emergency,Critical,"ambulance, CPR guidance"
+"Biker hit by a truck, severe bleeding from the head.",Medical Emergency,Critical,"ambulance, first aid"
+"Small child has a very high fever and is having seizures.",Medical Emergency,High,"ambulance, pediatric care"
+"My grandmother is complaining of severe chest pain and left arm numbness.",Medical Emergency,Critical,cardiac ambulance
+"Worker fell from the scaffolding, he is conscious but can't move his legs.",Medical Emergency,High,"ambulance, spinal care"
+"Sudden breathlessness, my asthma inhaler is empty.",Medical Emergency,High,ambulance
+"Cut my hand deeply while chopping wood, bleeding won't stop.",Medical Emergency,Medium,"first aid, clinic visit"
+"Stray dog bit my son multiple times, need rabies shots fast.",Medical Emergency,Medium,medical clinic
+"Pregnant lady in our train compartment has gone into early labor.",Medical Emergency,Critical,ambulance at next station
+"Snake bite in the field, the guy is getting drowsy.",Medical Emergency,Critical,"ambulance, anti-venom"
+"Found an unconscious man on the footpath, looks like extreme heatstroke.",Medical Emergency,High,"ambulance, hydration"
+"Diabetic patient's sugar dropped too low, completely unresponsive.",Medical Emergency,Critical,"ambulance, emergency glucose"
+"Neighbor drank some cleaning acid by mistake, vomiting blood.",Medical Emergency,Critical,"ambulance, poison control"
+"Slipped in the bathroom, I think my hip is broken, cannot stand up.",Medical Emergency,Medium,"ambulance, orthopedics"
+"Severe allergic reaction after eating peanuts, face is swollen and cant breath.",Medical Emergency,Critical,"ambulance, epinephrine"
+"Worker got his hand crushed in the industrial press machine.",Medical Emergency,High,"ambulance, surgical team"
+"Teenager drowned in the lake, we pulled him out but he has no pulse!",Medical Emergency,Critical,"CPR guidance, ambulance"
+"Continuous vomiting and loose motions since two days, severely dehydrated.",Medical Emergency,Medium,"medical clinic, IV fluids"
+"Car crash on the bypass, two people stuck inside with broken bones.",Medical Emergency,Critical,"rescue tools, ambulance"
+"An old lady fainted in the bank queue, she is sweating profusely.",Medical Emergency,Medium,"first aid, medical check"
+"Electric shock from the water heater, the person is thrown back and unconscious.",Medical Emergency,Critical,"ambulance, cardiac check"
+"Heavy bleeding after a glass window shattered on my arm.",Medical Emergency,High,"first aid, ambulance"
+"Multiple people throwing up and fainting after eating at the wedding feast.",Medical Emergency,High,"mass medical assistance, food poisoning protocol"
+"Slipped disc acting up, completely bedridden with extreme back pain.",Medical Emergency,Low,non-emergency medical transport
+"My brother is having a sudden panic attack and hyperventilating.",Medical Emergency,Low,"psychological support, clinic"
+"Factory worker inhaled toxic fumes, coughing violently and dizzy.",Medical Emergency,Critical,"hazmat response, medical assistance"
+"High grade fever since 4 days, suspecting dengue, platelets dropping.",Medical Emergency,Medium,hospital admission
+"My uncle suddenly cannot speak and half his face is drooping.",Medical Emergency,Critical,stroke ambulance
+"A heavy box fell on my foot at the warehouse, toes look crushed.",Medical Emergency,Medium,"medical clinic, x-ray"
+"A child swallowed a small toy part and is choking!",Medical Emergency,Critical,"Heimlich guidance, ambulance"
+"Huge banyan tree uprooted and fell across the main highway, traffic stopped.",Other,Medium,road clearance team
+"Strong smell of LPG gas coming from the closed flat next door.",Other,Critical,"gas utility team, evacuation"
+"Need 500 blankets and tarpaulins for the relief camp urgently.",Other,Low,"supply delivery, logistics"
+"Chemical truck overturned, green liquid spilling into the ditch.",Other,Critical,"hazmat response, evacuation"
+"Need tarpaulins and tents for 20 families whose homes were damaged.",Other,Low,shelter coordination
+"High tension wire snapped and is lying sparking on the road.",Other,Critical,"electricity board, cordon area"
+"Large concrete blocks fell from the truck, blocking the entire bridge.",Other,Medium,"debris removal, traffic diversion"
+"Need volunteers to help pack food packets for the displaced families.",Other,Low,volunteer coordination
+"Massive pothole opened up on the flyover, highly dangerous for bikers.",Other,Medium,"traffic police, road repair"
+"Fuel leaking from the underground tank at the petrol pump.",Other,High,"hazmat response, fire safety"
+"We are running out of essential BP medicines at the relief center.",Other,Medium,"medical supply delivery, logistics"
+"Stray cattle causing a major traffic block on the express highway.",Other,Low,"traffic police, animal control"
+"Sewer line backed up and is spilling hazardous waste onto the street.",Other,High,"hazmat response, sanitation services"
+"Swarm of locusts destroying crops in our district, need pest control.",Other,Medium,agricultural department
+"Ammonia gas leak from the cold storage plant, eyes are burning!",Other,Critical,"hazmat response, medical assistance"
+"Heavy landslide blocking the only route to the hill shrine.",Other,High,"road clearance, rescue team"
+"Open manhole on the flooded street, someone might fall in!",Other,High,"municipal authority, barricading"
+"We need a team of volunteers to help distribute drinking water packets.",Other,Low,volunteer coordination
+"Need temporary mobile toilets for the shelter camp.",Other,Low,sanitation services
+"Drinking water pipeline burst, thousands of liters wasting on the street.",Other,Medium,"water department, maintenance"
+"Elephant herd entered the village and destroying the huts.",Other,High,"forest department, evacuation"
+"Massive hoarding collapsed onto the parking lot during heavy winds.",Other,Medium,"crane assistance, debris removal"
+"We need baby food and sanitary pads urgently at the community hall shelter.",Other,Low,"supply delivery, relief distribution"
+"Toxic foam floating on the river, emitting a very foul chemical stench.",Other,Medium,"pollution control board, environmental assessment"
+"Oil spill from a ship off the coast, beach is covered in black tar.",Other,High,"environmental cleanup, coast guard"
+"A large sinkhole suddenly appeared in the middle of the playground.",Other,Medium,"barricading, geological inspection"
+"Seeking volunteers who know local language to help with helpline calls.",Other,Low,volunteer coordination
+"Gasoline spilling from a derailed goods train wagon.",Other,High,"hazmat response, railway authorities"
+"Overturned truck spilling tons of gravel on the steep mountain curve.",Other,Medium,"road clearance, traffic diversion"
+"A strange green gas is venting out from the factory chimney today.",Other,High,"environmental inspection, hazmat response"
