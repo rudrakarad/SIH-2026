@@ -1,6 +1,7 @@
 from groq import Groq
 from google import genai
 from dotenv import load_dotenv
+import speech_recognition as sr
 import os
 
 # Load API keys
@@ -39,13 +40,44 @@ print("================================")
 print("AI Disaster Management Assistant")
 print("Type 'exit' to quit.\n")
 
+def get_voice_input():
+    recognizer = sr.Recognizer()
+
+    with sr.Microphone() as source:
+        print("🎤 Listening... Speak now!")
+
+        recognizer.adjust_for_ambient_noise(source, duration=1)
+        audio = recognizer.listen(source)
+
+    try:
+        question = recognizer.recognize_google(audio)
+
+        print("You:", question)
+        return question
+
+    except sr.UnknownValueError:
+        print("Sorry, I couldn't understand your voice.")
+        return ""
+
+    except sr.RequestError:
+        print("Speech recognition service is unavailable.")
+        return ""
+
 while True:
 
-    question = input("You: ")
+    choice = input("Type 'v' for voice or press Enter for text: ")
+
+    if choice.lower() == "v":
+        question = get_voice_input()
+    else:
+        question = input("You: ")
 
     if question.lower() == "exit":
         print("\nAapdaSahayak: Stay safe! ")
         break
+
+    if question == "":
+        continue
 
     try:
 

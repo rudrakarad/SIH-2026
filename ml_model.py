@@ -4,6 +4,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import classification_report
+import speech_recognition as sr
 import pandas as pd
 
 df = pd.read_csv("disaster_data.csv")
