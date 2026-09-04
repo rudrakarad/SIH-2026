@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AapdaSahayak - SIH-2026 Disaster Management Command Portal</title>
+    <meta name="description" content="AI-Powered Disaster Management Command Center, Risk Calculator, Early Warning Radar, and Emergency Classifier for SIH-2026 Practice.">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- TOP HEADER WITH EMERGENCY CONTACTS & STATUS -->
+    <header class="top-bar">
+        <div class="nav-container">
+            <div class="logo-group">
+                <span class="logo-icon">🚨</span>
+                <div>
+                    <h1 class="logo-title">AapdaSahayak</h1>
+                    <div class="logo-subtitle">SIH-2026 Disaster Management Hub</div>
+                </div>
+            </div>
+
+            <!-- System Operational Status Badge -->
+            <div class="status-badge">
+                <span class="pulse-dot"></span>
+                <span>SYSTEM ONLINE • DISASTER READY</span>
+            </div>
+
+            <!-- Emergency Helplines Bar -->
+            <div class="emergency-contacts">
+                <div class="contact-card red" title="National Emergency Helpline">
+                    <span>🚓 Police: <strong>112 / 100</strong></span>
+                </div>
+                <div class="contact-card green" title="Medical Emergency Hotline">
+                    <span>🚑 Ambulance: <strong>102 / 108</strong></span>
+                </div>
+                <div class="contact-card orange" title="Fire Rescue Service">
+                    <span>🚒 Fire: <strong>101</strong></span>
+                </div>
+                <div class="contact-card blue" title="National Disaster Response Force">
+                    <span>🛟 NDRF: <strong>1078</strong></span>
+                </div>
+
+                <button class="btn btn-primary" onclick="openEmergencyContactsModal()" style="padding: 6px 14px; font-size: 12px; border-radius: 20px; background: linear-gradient(135deg, #ef4444, #b91c1c); box-shadow: 0 0 12px rgba(239,68,68,0.4);">
+                    📞 View All Emergency Helplines
+                </button>
+            </div>
+        </div>
+
+        <!-- Emergency Alert Ticker -->
+        <div class="ticker-bar">
+            <span class="ticker-label">LIVE BROADCAST</span>
+            <div class="ticker-text" id="tickerText">
+                ⚠️ FLOOD ALERT: Heavy rainfall advisory active in coastal regions. Monitor local emergency updates. Keep emergency contacts ready.
+            </div>
+        </div>
+    </header>
+
+    <!-- NAVIGATION TAB BAR -->
+    <nav class="nav-tabs-wrapper">
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('classifier', this)">
+                <span>🚨 Emergency AI Classifier</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('weather', this)">
+                <span>🛰️ Weather & Risk Engine</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('earlyWarning', this)">
+                <span>⚠️ Early Warning Radar</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('locationAdvisory', this)">
+                <span>🗺️ Location Safety Advisory</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('resource', this)">
+                <span>🚑 Emergency Decision Manager</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('dataset', this)">
+                <span>📊 Dataset & Model Analytics</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTROL ROOM CONTENT PANELS -->
+    <main class="main-content">
+
+        <!-- ===================================================================
+             MODULE 1: EMERGENCY AI CLASSIFIER
+             =================================================================== -->
+        <section id="classifierPanel" class="tab-panel active">
+            <div class="card-glass">
+                <div class="section-header">
+                    <h2 class="section-title">🚨 Emergency Incident Classifier</h2>
+                    <p class="section-desc">Type or speak your emergency situation to automatically identify disaster category, calculate urgency level, and generate emergency response plans.</p>
+                </div>
+
+                <div class="classifier-grid">
+                    <!-- Input Section -->
+                    <div class="input-box">
+                        <label for="emergencyText" style="font-size: 13px; font-weight: 600; color: var(--text-muted);">Describe Emergency Situation:</label>
+                        
+                        <div class="textarea-wrapper">
+                            <textarea id="emergencyText" class="emergency-textarea" rows="5" placeholder="Type or speak emergency details... (e.g. Flood water entering ground floor in Andheri, 15 people trapped on roof)"></textarea>
+                            <button id="micBtn" class="mic-btn-input" onclick="startVoiceInput('emergencyText')" title="Speak Emergency Details">🎤</button>
+                        </div>
+
+                        <div class="btn-row">
+                            <button class="btn btn-primary" onclick="predictDisaster()">⚡ Classify Emergency</button>
+                            <button class="btn btn-secondary" onclick="clearInput()">Clear</button>
+                        </div>
+
+                        <div>
+                            <span style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Quick Test Prompts:</span>
+                            <div class="quick-samples">
+                                <span class="sample-chip" onclick="setPrompt('Water entering ground floor in Mumbai, cars submerged, people stranded on rooftop.')">🌊 Severe Flood</span>
+                                <span class="sample-chip" onclick="setPrompt('Massive fire broke out in commercial building 3rd floor, thick black smoke.')">🔥 Commercial Fire</span>
+                                <span class="sample-chip" onclick="setPrompt('Strong shaking felt, cracks appearing in building walls, people panicking outdoors.')">🏚️ Earthquake Tremor</span>
+                                <span class="sample-chip" onclick="setPrompt('Elderly person having severe chest pain and breathlessness, need immediate ambulance.')">🚑 Medical Emergency</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Output / Result Section -->
+                    <div class="result-card" id="resultCard">
+                        <div class="result-header">
+                            <div>
+                                <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Disaster Category</span>
+                                <div style="margin-top: 4px;">
+                                    <span id="disasterType" class="disaster-tag Flood">Flood</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Urgency Level</span>
+                                <div style="margin-top: 4px;">
+                                    <span id="urgencyVal" class="urgency-badge CRITICAL">CRITICAL</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="meta-row">
+                            <span>AI Confidence: <strong id="confidenceVal" style="color: var(--success-green);">94.5%</strong></span>
+                            <span>Model: <strong style="color: var(--alert-blue);">TF-IDF Logistic Regression</strong></span>
+                        </div>
+
+                        <div class="info-block">
+                            <h4>📋 Recommended Immediate Action:</h4>
+                            <p id="responsePlan">Send rescue team and provide evacuation and shelter information.</p>
+                        </div>
+
+                        <div class="info-block" style="border-left-color: var(--warning-orange);">
+                            <h4>🛟 Required Assistance & Dispatch:</h4>
+                            <p id="assistancePlan">Search & rescue boat, temporary shelter, emergency medical team.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ===================================================================
+             MODULE 2: LIVE WEATHER & DISASTER RISK ENGINE
+             =================================================================== -->
+        <section id="weatherPanel" class="tab-panel">
+            <div class="card-glass">
+                <div class="section-header">
+                    <h2 class="section-title">🛰️ Live Weather & Disaster Risk Analyzer</h2>
+                    <p class="section-desc">Fetch real-time Open-Meteo weather parameters, assess atmospheric risk factors, and calculate live disaster risk index for any city.</p>
+                </div>
+
+                <div class="weather-search-bar">
+                    <input type="text" id="cityInput" class="input-text" value="Mumbai" placeholder="Enter Indian City (e.g. Mumbai, Delhi, Kolkata, Wayanad)...">
+                    <button class="btn btn-primary" onclick="fetchCityRisk()">Analyze Risk</button>
+                </div>
+
+                <!-- Metrics Grid -->
+                <div class="weather-metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon">🌡️</div>
+                        <div>
+                            <div class="metric-val" id="wTemp">29.4 °C</div>
+                            <div class="metric-lbl">Temperature</div>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">🌧️</div>
+                        <div>
+                            <div class="metric-val" id="wRain">35.0 mm</div>
+                            <div class="metric-lbl">Precipitation / Rain</div>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">💨</div>
+                        <div>
+                            <div class="metric-val" id="wWind">42.5 km/h</div>
+                            <div class="metric-lbl">Wind Speed</div>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">💧</div>
+                        <div>
+                            <div class="metric-val" id="wHumidity">88%</div>
+                            <div class="metric-lbl">Relative Humidity</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Risk Assessment Gauge Box -->
+                <div class="risk-gauge-box">
+                    <div style="display: flex; align-items: center; gap: 20px;">
+                        <div class="risk-score-circle">
+                            <span class="score-num" id="riskScoreVal">65</span>
+                            <span class="score-lbl">RISK SCORE</span>
+                        </div>
+                        <div>
+                            <span style="font-size: 12px; color: var(--text-muted);">OVERALL RISK LEVEL</span>
+                            <h3 id="riskLevelText" style="font-family: var(--font-heading); font-size: 28px; color: var(--warning-orange);">HIGH RISK</h3>
+                            <p id="riskCityLoc" style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Location: Mumbai (19.07°N, 72.87°E)</p>
+                        </div>
+                    </div>
+
+                    <div class="risk-factors-list" id="riskFactorsContainer">
+                        <div class="risk-factor-item">⚠️ Heavy rainfall detected</div>
+                        <div class="risk-factor-item">⚠️ Strong winds detected</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ===================================================================
+             MODULE 3: EARLY WARNING & GFS FORECAST RADAR (backend/early_warning.py)
+             =================================================================== -->
+        <section id="earlyWarningPanel" class="tab-panel">
+            <div class="card-glass">
+                <div class="section-header">
+                    <h2 class="section-title">⚠️ Early Warning System & GFS Forecast Radar</h2>
+                    <p class="section-desc">Powered by <code>backend/early_warning.py</code>. Real-time atmospheric parameter threshold alerts and 48-hour Meteorological Forecast warning engine.</p>
+                </div>
+
+                <div class="risk-factors-list" id="earlyWarningList" style="margin-bottom: 24px;">
+                    <div class="risk-factor-item" style="background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.4); color: #fca5a5;">
+                        <span>🚨 <strong>CRITICAL FLOOD / EXTREME RAINFALL WARNING</strong>: Heavy precipitation detected. Waterlogging expected in low-lying sectors. Move to safer areas.</span>
+                    </div>
+                    <div class="risk-factor-item" style="background: rgba(249,115,22,0.15); border-color: rgba(249,115,22,0.4); color: #fdba74;">
+                        <span>🌪️ <strong>STRONG WIND ADVISORY</strong>: Wind gusts reaching 55 km/h. Secure loose outdoor structures and stay away from old trees.</span>
+                    </div>
+                </div>
+
+                <h3 style="font-family: var(--font-heading); font-size: 16px; color: #fff; margin-bottom: 12px;">🛰️ 48-Hour GFS Forecast Alert Projections:</h3>
+                <div class="weather-metrics-grid" id="forecastTimelineGrid">
+                    <div class="metric-card">
+                        <div class="metric-icon">⛈️</div>
+                        <div>
+                            <div style="font-size: 11px; color: var(--text-muted);">+6 Hours</div>
+                            <div class="metric-val" style="font-size: 16px;">Heavy Rainfall</div>
+                            <div class="metric-lbl">Precipitation > 25mm/h</div>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">💨</div>
+                        <div>
+                            <div style="font-size: 11px; color: var(--text-muted);">+18 Hours</div>
+                            <div class="metric-val" style="font-size: 16px;">Gale Wind Warning</div>
+                            <div class="metric-lbl">Wind Gusts > 60 km/h</div>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">☀️</div>
+                        <div>
+                            <div style="font-size: 11px; color: var(--text-muted);">+36 Hours</div>
+                            <div class="metric-val" style="font-size: 16px;">High Temperature</div>
+                            <div class="metric-lbl">Temperature > 38 °C</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ===================================================================
+             MODULE 4: LOCATION SAFETY ADVISORY (backend/location_advisory.py)
+             =================================================================== -->
+        <section id="locationAdvisoryPanel" class="tab-panel">
+            <div class="card-glass">
+                <div class="section-header">
+                    <h2 class="section-title">🗺️ Location Safety Advisory & Precaution Guide</h2>
+                    <p class="section-desc">Powered by <code>backend/location_advisory.py</code>. City-specific safety recommendations and danger precautions tailored to disaster categories across India.</p>
+                </div>
+
+                <div class="weather-search-bar" style="max-width: 800px;">
+                    <input type="text" id="advCityInput" class="input-text" value="Mumbai" placeholder="Enter City (e.g. Mumbai, Shimla, Wayanad)...">
+                    <select id="advDisasterType" class="input-text" style="max-width: 220px;" onchange="loadLocationAdvisory()">
+                        <option value="flood">Flood Safety</option>
+                        <option value="cyclone">Cyclone Safety</option>
+                        <option value="landslide">Landslide Safety</option>
+                        <option value="fire">Fire Safety</option>
+                        <option value="heavy rainfall">Heavy Rainfall</option>
+                        <option value="general">General Disaster</option>
+                    </select>
+                    <button class="btn btn-primary" onclick="loadLocationAdvisory()">Get Advisory</button>
+                </div>
+
+                <div class="classifier-grid">
+                    <!-- Recommended Actions -->
+                    <div class="info-block" style="border-left-color: var(--success-green); background: rgba(16, 185, 129, 0.05);">
+                        <h4 style="color: #6ee7b7;">✅ Recommended Immediate Actions:</h4>
+                        <ul id="advActionsList" style="padding-left: 18px; color: var(--text-main); font-size: 13px; line-height: 1.8;">
+                            <li>Move to safer or elevated areas if flood water levels increase.</li>
+                            <li>Monitor official local flood and weather broadcasts.</li>
+                            <li>Keep emergency battery supplies and important documents ready.</li>
+                            <li>Use alternate elevated routes if low-lying roads are waterlogged.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Things to Avoid -->
+                    <div class="info-block" style="border-left-color: var(--primary-red); background: rgba(239, 68, 68, 0.05);">
+                        <h4 style="color: #fca5a5;">🛑 Dangerous Things to Avoid:</h4>
+                        <ul id="advAvoidList" style="padding-left: 18px; color: var(--text-main); font-size: 13px; line-height: 1.8;">
+                            <li>Do not walk or drive into flooded roads or moving water currents.</li>
+                            <li>Avoid touching fallen electrical cables or submerged transformer boxes.</li>
+                            <li>Do not consume unboiled or potentially contaminated tap water.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ===================================================================
+             MODULE 5: RESOURCE MANAGER & EMERGENCY DECISION ENGINE
+             =================================================================== -->
+        <section id="resourcePanel" class="tab-panel">
+            <div class="card-glass">
+                <div class="section-header">
+                    <h2 class="section-title">🚑 Emergency Resource & Decision Manager</h2>
+                    <p class="section-desc">Simulate emergency resource pressure, calculate deployment priority, and generate control-room AI response decisions.</p>
+                </div>
+
+                <!-- Quick Scenario Preset Chips -->
+                <div style="margin-bottom: 16px;">
+                    <span style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Test Presets:</span>
+                    <div class="quick-samples" style="margin-top: 6px;">
+                        <span class="sample-chip" onclick="loadScenario('Flood', 'Flash flooding reported in urban residential sectors', 650, 2, 3, 4, 3)">🌊 Urban Flood</span>
+                        <span class="sample-chip" onclick="loadScenario('Fire', 'Massive fire broke out in chemical factory near chawl', 300, 1, 2, 2, 4)">🔥 Factory Fire</span>
+                        <span class="sample-chip" onclick="loadScenario('Earthquake', 'Building collapse after strong shaking and tremors', 1200, 2, 4, 5, 6)">🏚️ Earthquake</span>
+                        <span class="sample-chip" onclick="loadScenario('Gas Leak', 'Toxic gas leak from industrial cylinder', 450, 3, 2, 3, 2)">☣️ Gas Leak</span>
+                        <span class="sample-chip" onclick="loadScenario('Landslide', 'Mountain landslide blocking main ghat highway', 180, 1, 1, 1, 5)">⛰️ Landslide</span>
+                    </div>
+                </div>
+
+                <div class="resource-grid">
+                    <!-- Resource Inputs -->
+                    <div>
+                        <div class="form-group">
+                            <label>Emergency Situation Description:</label>
+                            <input type="text" id="resSituation" class="input-text" value="Flash flooding reported in urban low-lying residential sectors" oninput="generateEmergencyPlan()">
+                        </div>
+
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label>People Affected / Stranded:</label>
+                                <input type="number" id="resPeople" class="input-num" value="650" min="0" oninput="generateEmergencyPlan()">
+                            </div>
+                            <div class="form-group">
+                                <label>Rescue Teams Deployed:</label>
+                                <input type="number" id="resTeams" class="input-num" value="2" min="0" oninput="generateEmergencyPlan()">
+                            </div>
+                        </div>
+
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label>Ambulances On Duty:</label>
+                                <input type="number" id="resAmbulances" class="input-num" value="3" min="0" oninput="generateEmergencyPlan()">
+                            </div>
+                            <div class="form-group">
+                                <label>Nearby Hospitals Active:</label>
+                                <input type="number" id="resHospitals" class="input-num" value="4" min="0" oninput="generateEmergencyPlan()">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Blocked Roads / Arteries:</label>
+                            <input type="number" id="resBlockedRoads" class="input-num" value="3" min="0" oninput="generateEmergencyPlan()">
+                        </div>
+
+                        <button class="btn btn-primary" onclick="generateEmergencyPlan()" style="width: 100%; margin-top: 10px;">⚡ Generate Decision & Comprehensive Action Plan</button>
+                    </div>
+
+                    <!-- AI Decision Result Output -->
+                    <div class="result-card" id="resResultCard">
+                        <div class="result-header">
+                            <div>
+                                <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Resource Pressure Score</span>
+                                <div style="font-family: var(--font-heading); font-size: 24px; font-weight: 800; color: var(--primary-red);" id="resPressureScore">65 / 100</div>
+                            </div>
+                            <div>
+                                <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Deployment Priority</span>
+                                <div style="margin-top: 4px;">
+                                    <span class="urgency-badge HIGH" id="resPriorityBadge">HIGH</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-block">
+                            <h4>🎯 Comprehensive Recommended Action Plan:</h4>
+                            <ul id="resActionsList" style="padding-left: 18px; color: var(--text-main); font-size: 13px; line-height: 1.7;">
+                                <li>🚨 Deploy search & rescue units immediately to assist affected citizens.</li>
+                                <li>🚧 Mobilize heavy machinery and road clearance crews for blocked arterial roads.</li>
+                                <li>🚑 Request emergency backup ambulances from neighboring district health units.</li>
+                                <li>🏥 Alert triage departments across nearby hospitals to reserve emergency beds.</li>
+                                <li>🛟 Call for additional NDRF / SDRF specialized rescue battalion deployment.</li>
+                                <li>📢 Broadcast location-based emergency evacuation advisories and SMS warning alerts.</li>
+                            </ul>
+                        </div>
+
+                        <div class="info-block" style="border-left-color: var(--alert-blue);">
+                            <h4>🤖 Control Room AI Operational Summary:</h4>
+                            <p id="resAiSummary" style="font-size: 13px;">High resource strain detected due to stranded population and road blockages. Recommend immediate dispatch of backup NDRF personnel, opening emergency transit corridors, and notifying district emergency control room.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ===================================================================
+             MODULE 6: DISASTER DATASET & ANALYTICS (disaster_data.csv & ml_model.py)
+             =================================================================== -->
+        <section id="datasetPanel" class="tab-panel">
+            <div class="card-glass">
+                <div class="section-header">
+                    <h2 class="section-title">📊 Disaster Dataset & Machine Learning Analytics</h2>
+                    <p class="section-desc">Powered by <code>disaster_data.csv</code> and <code>ml_model.py</code>. Real-world emergency dataset logs and TF-IDF Logistic Regression metrics.</p>
+                </div>
+
+                <div class="weather-metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon">📑</div>
+                        <div>
+                            <div class="metric-val">151</div>
+                            <div class="metric-lbl">Total Emergency Records</div>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">🏷️</div>
+                        <div>
+                            <div class="metric-val">5</div>
+                            <div class="metric-lbl">Disaster Classes</div>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">🎯</div>
+                        <div>
+                            <div class="metric-val" style="color: var(--success-green);">92.5%</div>
+                            <div class="metric-lbl">Model Accuracy Score</div>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">🔤</div>
+                        <div>
+                            <div class="metric-val" style="color: var(--alert-blue);">450+</div>
+                            <div class="metric-lbl">TF-IDF Feature Terms</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-block" style="margin-top: 10px;">
+                    <h4>📊 Class Distribution Breakdown:</h4>
+                    <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+                                <span>🌊 Flood Emergencies</span>
+                                <span>31 Records (20.5%)</span>
+                            </div>
+                            <div style="height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden;">
+                                <div style="width: 20.5%; height: 100%; background: #3b82f6;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+                                <span>🔥 Fire Incidents</span>
+                                <span>30 Records (19.8%)</span>
+                            </div>
+                            <div style="height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden;">
+                                <div style="width: 19.8%; height: 100%; background: #ef4444;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+                                <span>🏚️ Earthquake Tremors</span>
+                                <span>30 Records (19.8%)</span>
+                            </div>
+                            <div style="height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden;">
+                                <div style="width: 19.8%; height: 100%; background: #f97316;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+                                <span>🚑 Medical Emergencies</span>
+                                <span>30 Records (19.8%)</span>
+                            </div>
+                            <div style="height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden;">
+                                <div style="width: 19.8%; height: 100%; background: #10b981;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- CORNER FLOATING AI CHATBOT DRAWER (AAPDASAHAYAK AI ASSISTANT) -->
+    <div class="corner-chatbot-drawer">
+        <button id="fabBtn" class="chat-fab" onclick="toggleCornerChat()">
+            💬 AapdaSahayak AI Assistant
+        </button>
+
+        <div id="cornerChatBox" class="card-glass hidden" style="width: 380px; height: 500px; display: flex; flex-direction: column; padding: 0; position: absolute; bottom: 60px; right: 0; border: 1px solid var(--primary-red-glow);">
+            <div style="background: rgba(18, 26, 43, 0.95); padding: 14px 16px; border-bottom: 1px solid var(--bg-card-border); display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-family: var(--font-heading); font-size: 14px; font-weight: 700; color: #fff;">🤖 AapdaSahayak AI Assistant</span>
+                <button onclick="toggleCornerChat()" style="background: none; border: none; color: #fff; cursor: pointer; font-size: 16px;">✕</button>
+            </div>
+
+            <div id="cornerMessages" style="flex: 1; padding: 14px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
+                <div class="chat-msg-bubble bot">
+                    Namaste! I am your disaster safety assistant. Ask me anything about earthquake protocols, flood safety, fire response, gas leak precautions, or emergency helplines!
+                </div>
+            </div>
+
+            <div style="padding: 8px 12px; background: rgba(0,0,0,0.2); display: flex; gap: 6px; flex-wrap: wrap;">
+                <span class="sample-chip" style="font-size: 11px; padding: 4px 8px;" onclick="sendQuickCorner('What to do during an earthquake?')">🏚️ Earthquake</span>
+                <span class="sample-chip" style="font-size: 11px; padding: 4px 8px;" onclick="sendQuickCorner('Flood safety precautions')">🌊 Flood</span>
+                <span class="sample-chip" style="font-size: 11px; padding: 4px 8px;" onclick="sendQuickCorner('Gas leak safety rules')">🔥 Gas Leak</span>
+            </div>
+
+            <div style="padding: 10px; border-top: 1px solid var(--bg-card-border); display: flex; gap: 6px; background: rgba(10, 15, 26, 0.95);">
+                <button id="cornerMicBtn" class="mic-btn-input" style="position: static; width: 34px; height: 34px; font-size: 14px;" onclick="startVoiceInput('cornerInput')" title="Voice Speech Input">🎤</button>
+                <input type="text" id="cornerInput" class="input-text" style="padding: 6px 10px; font-size: 12px;" placeholder="Ask disaster safety question..." onkeypress="handleCornerKeyPress(event)">
+                <button class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;" onclick="sendCornerMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- EMERGENCY CONTACTS DIRECTORY MODAL -->
+    <div id="emergencyContactsModal" class="modal-backdrop hidden" onclick="closeEmergencyContactsModal(event)">
+        <div class="modal-dialog" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 24px;">📞</span>
+                    <div>
+                        <h3 style="font-family: var(--font-heading); font-size: 18px; color: #fff;">National & Regional Emergency Helpline Directory</h3>
+                        <p style="font-size: 12px; color: var(--text-muted);">Instant 24x7 India Emergency Contacts & Rescue Control Rooms</p>
+                    </div>
+                </div>
+                <button onclick="closeEmergencyContactsModal()" style="background: none; border: none; color: #fff; font-size: 20px; cursor: pointer;">✕</button>
+            </div>
+
+            <div class="modal-body">
+                <input type="text" id="contactSearchInput" class="input-text" placeholder="Search emergency contact (e.g., NDRF, Police, Ambulance, Women, Railway)..." onkeyup="filterEmergencyContacts()">
+
+                <div class="contacts-grid" id="contactsGrid">
+                    <!-- National Emergency 112 -->
+                    <div class="contact-directory-card" data-name="national police 112 emergency">
+                        <div>
+                            <span class="sample-chip" style="color: #f87171; border-color: #ef4444;">🚨 All Emergency Services</span>
+                            <h4 style="color: #fff; margin-top: 8px;">National Emergency Number</h4>
+                            <div class="contact-num-large" style="color: #ef4444;">112</div>
+                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Single unified emergency response number for Police, Fire, Ambulance & Rescue across India.</p>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <a href="tel:112" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;">📞 Call 112</a>
+                            <button class="btn btn-secondary" onclick="copyText('112')" style="padding: 6px 12px; font-size: 12px;">📋 Copy</button>
+                        </div>
+                    </div>
+
+                    <!-- NDRF 1078 -->
+                    <div class="contact-directory-card" data-name="ndrf national disaster response force 1078">
+                        <div>
+                            <span class="sample-chip" style="color: #93c5fd; border-color: #3b82f6;">🛟 Disaster Response</span>
+                            <h4 style="color: #fff; margin-top: 8px;">NDRF Helpline HQ</h4>
+                            <div class="contact-num-large" style="color: #60a5fa;">1078 / 011-24363260</div>
+                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">National Disaster Response Force HQ 24x7 Control Room for flood, quake & structural rescue.</p>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <a href="tel:1078" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px; background: #3b82f6;">📞 Call 1078</a>
+                            <button class="btn btn-secondary" onclick="copyText('1078')" style="padding: 6px 12px; font-size: 12px;">📋 Copy</button>
+                        </div>
+                    </div>
+
+                    <!-- Ambulance 108 / 102 -->
+                    <div class="contact-directory-card" data-name="ambulance medical 108 102 health doctor">
+                        <div>
+                            <span class="sample-chip" style="color: #34d399; border-color: #10b981;">🚑 Medical Trauma</span>
+                            <h4 style="color: #fff; margin-top: 8px;">National Ambulance Service</h4>
+                            <div class="contact-num-large" style="color: #34d399;">108 / 102</div>
+                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">24x7 Emergency medical ambulance dispatch, pregnant care, and trauma transport.</p>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <a href="tel:108" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px; background: #10b981;">📞 Call 108</a>
+                            <button class="btn btn-secondary" onclick="copyText('108')" style="padding: 6px 12px; font-size: 12px;">📋 Copy</button>
+                        </div>
+                    </div>
+
+                    <!-- Fire 101 -->
+                    <div class="contact-directory-card" data-name="fire brigade 101 rescue burn flames">
+                        <div>
+                            <span class="sample-chip" style="color: #fdba74; border-color: #f97316;">🚒 Fire & Rescue</span>
+                            <h4 style="color: #fff; margin-top: 8px;">Fire Rescue Services</h4>
+                            <div class="contact-num-large" style="color: #fb923c;">101</div>
+                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Municipal Fire Brigade control room for building fires, chemical leaks, and structural extrication.</p>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <a href="tel:101" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px; background: #f97316;">📞 Call 101</a>
+                            <button class="btn btn-secondary" onclick="copyText('101')" style="padding: 6px 12px; font-size: 12px;">📋 Copy</button>
+                        </div>
+                    </div>
+
+                    <!-- SDMA State Control Room 1070 -->
+                    <div class="contact-directory-card" data-name="sdma state disaster management authority control room 1070">
+                        <div>
+                            <span class="sample-chip" style="color: #c084fc; border-color: #a855f7;">🏛️ State Control Room</span>
+                            <h4 style="color: #fff; margin-top: 8px;">State Disaster Authority (SDMA)</h4>
+                            <div class="contact-num-large" style="color: #c084fc;">1070</div>
+                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">State Emergency Operations Center (SEOC) for district relief coordination and warnings.</p>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <a href="tel:1070" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px; background: #a855f7;">📞 Call 1070</a>
+                            <button class="btn btn-secondary" onclick="copyText('1070')" style="padding: 6px 12px; font-size: 12px;">📋 Copy</button>
+                        </div>
+                    </div>
+
+                    <!-- Women Helpline 1091 -->
+                    <div class="contact-directory-card" data-name="women safety 1091 181 distress">
+                        <div>
+                            <span class="sample-chip" style="color: #f472b6; border-color: #ec4899;">🛡️ Women Safety</span>
+                            <h4 style="color: #fff; margin-top: 8px;">National Women Helpline</h4>
+                            <div class="contact-num-large" style="color: #f472b6;">1091 / 181</div>
+                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">24x7 Confidential helpline for women in distress, harassment, or disaster evacuation assistance.</p>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <a href="tel:1091" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px; background: #ec4899;">📞 Call 1091</a>
+                            <button class="btn btn-secondary" onclick="copyText('1091')" style="padding: 6px 12px; font-size: 12px;">📋 Copy</button>
+                        </div>
+                    </div>
+
+                    <!-- Childline 1098 -->
+                    <div class="contact-directory-card" data-name="child children protection 1098">
+                        <div>
+                            <span class="sample-chip" style="color: #fbbf24; border-color: #f59e0b;">👶 Child Protection</span>
+                            <h4 style="color: #fff; margin-top: 8px;">National Childline</h4>
+                            <div class="contact-num-large" style="color: #fbbf24;">1098</div>
+                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">24x7 Free emergency phone service for children in need of care, relief, and protection.</p>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <a href="tel:1098" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px; background: #f59e0b;">📞 Call 1098</a>
+                            <button class="btn btn-secondary" onclick="copyText('1098')" style="padding: 6px 12px; font-size: 12px;">📋 Copy</button>
+                        </div>
+                    </div>
+
+                    <!-- Coast Guard 1093 -->
+                    <div class="contact-directory-card" data-name="coast guard maritime ocean sea flood 1093 1554">
+                        <div>
+                            <span class="sample-chip" style="color: #38bdf8; border-color: #0284c7;">⚓ Maritime & Coast</span>
+                            <h4 style="color: #fff; margin-top: 8px;">Indian Coast Guard Rescue</h4>
+                            <div class="contact-num-large" style="color: #38bdf8;">1093 / 1554</div>
+                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Search and rescue at sea, coastal floods, fisherman safety, and cyclone maritime warnings.</p>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <a href="tel:1093" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px; background: #0284c7;">📞 Call 1093</a>
+                            <button class="btn btn-secondary" onclick="copyText('1093')" style="padding: 6px 12px; font-size: 12px;">📋 Copy</button>
+                        </div>
+                    </div>
+
+                    <!-- Railway Helpline 139 -->
+                    <div class="contact-directory-card" data-name="railway train station security medical 139">
+                        <div>
+                            <span class="sample-chip" style="color: #a7f3d0; border-color: #059669;">🚆 Railway Emergency</span>
+                            <h4 style="color: #fff; margin-top: 8px;">Indian Railways Helpline</h4>
+                            <div class="contact-num-large" style="color: #a7f3d0;">139</div>
+                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Integrated railway security, medical emergency, and track waterlogging emergency helpline.</p>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <a href="tel:139" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px; background: #059669;">📞 Call 139</a>
+                            <button class="btn btn-secondary" onclick="copyText('139')" style="padding: 6px 12px; font-size: 12px;">📋 Copy</button>
+                        </div>
+                    </div>
+
+                    <!-- Tele-MANAS 14416 -->
+                    <div class="contact-directory-card" data-name="mental health tele manas stress panic trauma 14416">
+                        <div>
+                            <span class="sample-chip" style="color: #e879f9; border-color: #c084fc;">🧠 Mental Health Relief</span>
+                            <h4 style="color: #fff; margin-top: 8px;">Tele-MANAS Trauma Care</h4>
+                            <div class="contact-num-large" style="color: #e879f9;">14416 / 1-800-891-4416</div>
+                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">24x7 Toll-free psychological first-aid and post-disaster trauma counseling.</p>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <a href="tel:14416" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px; background: #c084fc;">📞 Call 14416</a>
+                            <button class="btn btn-secondary" onclick="copyText('14416')" style="padding: 6px 12px; font-size: 12px;">📋 Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN JAVASCRIPT LOGIC -->
+    <script src="script.js"></script>
+</body>
+</html>
