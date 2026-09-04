@@ -5,6 +5,11 @@ from decision_engine import generate_emergency_decision, generate_full_emergency
 from emergency_manager import create_emergency_plan
 from location_advisory import generate_location_advisory
 from early_warning import generate_early_warning, generate_forecast_warning
+<<<<<<< HEAD
+=======
+from smart_alerts import SmartAlertEngine, USER_DATABASE
+smart_alert_engine = SmartAlertEngine(USER_DATABASE)  # Initialize with user database
+>>>>>>> c81ee6318fb538965182806e4c7406203cc7684c
 
 app = FastAPI(
     title="Disaster Management AI",
@@ -243,4 +248,63 @@ def forecast_warning(city: str = "Mumbai"):
     return {
         "location": city,
         "forecast_warning": forecast_warning_data
+<<<<<<< HEAD
+=======
+    }
+@app.get("/smart-alert")
+def generate_alert_message(category, severity):
+
+    messages = {
+        "flood": {
+            "HIGH": "Heavy rainfall may cause flooding. Avoid low-lying areas and flooded roads.",
+            "CRITICAL": "Critical flood risk detected. Move to a safer location and follow official instructions."
+        },
+
+        "cyclone": {
+            "HIGH": "Strong winds are expected. Stay indoors and avoid unnecessary travel.",
+            "CRITICAL": "Critical cyclone conditions detected. Stay indoors and follow official emergency instructions."
+        },
+
+        "heavy_rain": {
+            "HIGH": "Heavy rainfall is expected. Avoid waterlogged roads and low-lying areas.",
+            "CRITICAL": "Extreme rainfall detected. Prepare for possible flooding and follow official warnings."
+        },
+
+        "heatwave": {
+            "HIGH": "High heat conditions detected. Stay hydrated and avoid unnecessary outdoor activity.",
+            "CRITICAL": "Extreme heat detected. Stay indoors where possible and maintain hydration."
+        },
+
+        "landslide": {
+            "HIGH": "Landslide risk detected. Avoid steep slopes and unstable areas.",
+            "CRITICAL": "Critical landslide risk detected. Move away from unstable slopes and follow emergency instructions."
+        }
+    }
+
+    return messages.get(category, {}).get(
+        severity,
+        "Disaster risk detected. Stay alert and follow official instructions."
+    )
+
+
+@app.get("/smart-alert")
+def smart_alert(
+    user_id: str = "user_101",
+    category: str = "flood",
+    severity: str = "HIGH"
+):
+
+    message = generate_alert_message(category, severity)
+
+    result = smart_alert_engine.process_alert(
+        user_id,
+        category,
+        message,
+        severity
+    )
+
+    return {
+        "feature": "Smart Personalized Alerts",
+        "alert": result
+>>>>>>> c81ee6318fb538965182806e4c7406203cc7684c
     }

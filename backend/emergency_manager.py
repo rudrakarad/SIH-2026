@@ -1,5 +1,5 @@
 def detect_disaster_type(situation):
-    s = situation.lower()
+    s = (situation or "").lower()
     if any(w in s for w in ["fire", "flame", "smoke", "cylinder", "blast", "burn", "explosion"]):
         return "Fire"
     if any(w in s for w in ["quake", "earthquake", "tremor", "shaking", "collapse", "debris", "crack"]):
