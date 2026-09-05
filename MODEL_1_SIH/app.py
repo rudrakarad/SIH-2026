@@ -4,12 +4,27 @@ import pandas as pd
 from flask import Flask, request, jsonify, send_from_directory
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
-from ai_chatbot import get_bot_response
 from backend.emergency_manager import create_emergency_plan
 from backend.early_warning import generate_early_warning
 from backend.location_advisory import generate_location_advisory
 from backend.risk_engine import calculate_risk
 from backend.decision_engine import generate_full_emergency_decision, generate_emergency_decision
+
+def get_bot_response(question):
+    if not question or not question.strip():
+        return ""
+    q = question.lower()
+    if "earthquake" in q or "shaking" in q or "tremor" in q:
+        return "🏚️ **Earthquake Safety Protocol:**\n1. DROP, COVER, and HOLD ON under a heavy desk or table.\n2. Stay away from glass windows and tall furniture.\n3. Do NOT use elevators.\n4. If outdoors, move to an open area away from power lines and tall structures."
+    elif "flood" in q or "water" in q or "rain" in q:
+        return "🌊 **Flood Emergency Precautions:**\n1. Move immediately to higher ground or upper building floors.\n2. Do NOT walk or drive through moving water.\n3. Turn off main electrical circuit breakers.\n4. Boil drinking water or use purification tablets."
+    elif "fire" in q or "smoke" in q or "burn" in q:
+        return "🚒 **Fire Evacuation Protocol:**\n1. Call Fire Brigade (101) immediately.\n2. Crawl low beneath smoke to maintain clean air.\n3. Feel door handles before opening.\n4. Use emergency stairwells only—never elevators."
+    elif "gas" in q or "leak" in q:
+        return "☣️ **Gas Leak Warning:**\n1. Do NOT operate electrical switches or light matches.\n2. Open all doors and windows for ventilation.\n3. Close the cylinder regulator valve immediately.\n4. Evacuate and call Emergency Services (112 / 101)."
+    else:
+        return "🤖 **AapdaSahayak Assistant:**\nStay calm during emergencies and follow local safety advisories. Helpline numbers in India: Police **112**, Ambulance **108**, Fire **101**, NDRF **1078**."
+
 
 # Fix Windows console UTF-8 encoding
 if hasattr(sys.stdout, 'reconfigure'):
