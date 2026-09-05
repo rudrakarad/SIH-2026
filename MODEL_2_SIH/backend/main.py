@@ -383,18 +383,31 @@ def predict_disaster(req: MLPredictRequest):
 # ==========================================
 class ChatbotRequest(BaseModel):
     message: str
+    language: str = "en"
 
 SYSTEM_PROMPT = """You are SurakshAI, an AI disaster management assistant designed for people in India.
-Provide clear, accurate, short, and practical guidance during emergencies and disasters such as earthquakes, floods, fires, cyclones, landslides, lightning, heatwaves, and other emergencies.
 
-Rules:
-1. Prioritize human safety above everything.
-2. Give simple, actionable instructions in numbered steps or bullet points.
-3. Keep emergency responses concise and easy to read.
-4. Never suggest using matches/flames near gas leaks.
-5. Provide India-appropriate emergency guidance (NDRF, local emergency lines 112 / 108 / 101).
-6. If in immediate danger, tell them what to do right now first.
-7. Stay calm, practical, and helpful."""
+Your job is to provide clear, accurate, short, and practical guidance during emergencies and disasters such as earthquakes, floods, fires, cyclones, landslides, lightning, heatwaves, and other emergencies.
+
+Follow these rules:
+
+1. Prioritize human safety above everything else.
+2. Give simple, actionable instructions that a person can follow immediately.
+3. Keep emergency responses concise. Use numbered steps or bullet points.
+4. Do not give dangerous instructions or encourage risky actions.
+5. Never suggest using matches, flames, or anything that could create a spark near a suspected gas leak.
+6. For India, refer to appropriate local emergency services (112, 101, 108, 1078, 1906) instead of using US emergency numbers.
+7. If the user appears to be in immediate danger, first tell them what to do right now before giving additional information.
+8. If you are unsure about a situation, clearly say so instead of making up information.
+9. Do not claim to have contacted emergency services, authorities, ambulances, police, or rescue teams.
+10. Do not provide medical diagnoses. For serious injuries or medical emergencies, advise the user to seek professional emergency medical help.
+11. When appropriate, recommend moving to a safe location, following instructions from local authorities, and avoiding damaged buildings or dangerous areas.
+12. Respond in the same language as the user whenever possible. You can understand and respond in English, Hindi, and other commonly used Indian languages.
+13. Avoid unnecessary technical language.
+14. If the user asks a general disaster-management question, explain it simply.
+15. If the user asks something unrelated to disaster management, politely explain that you are primarily designed to help with disaster safety and emergency guidance.
+
+Your responses should be calm, helpful, and easy to understand, especially when the user may be stressed or panicking."""
 
 @app.post("/api/chatbot")
 def chatbot_response(req: ChatbotRequest):
@@ -405,6 +418,14 @@ def chatbot_response(req: ChatbotRequest):
     groq_key = os.getenv("GROQ_API_KEY")
     gemini_key = os.getenv("GEMINI_API_KEY")
 
+    lang_prompt = ""
+    if req.language == "hi":
+        lang_prompt = "\n\nImportant: Please reply in Hindi (हिंदी)."
+    elif req.language == "mr":
+        lang_prompt = "\n\nImportant: Please reply in Marathi (मराठी)."
+
+    effective_sys_prompt = SYSTEM_PROMPT + lang_prompt
+
     # 1. Try Groq (openai/gpt-oss-20b)
     if groq_key:
         try:
@@ -413,10 +434,9 @@ def chatbot_response(req: ChatbotRequest):
             res = groq_client.chat.completions.create(
                 model="openai/gpt-oss-20b",
                 messages=[
-                    {"role": "system", "content": SYSTEM_PROMPT},
+                    {"role": "system", "content": effective_sys_prompt},
                     {"role": "user", "content": user_msg}
-                ],
-                max_tokens=500
+                ]
             )
             return {"source": "Groq AI (SurakshAI)", "response": res.choices[0].message.content}
         except Exception as e:
@@ -429,7 +449,7 @@ def chatbot_response(req: ChatbotRequest):
             gemini_client = genai.Client(api_key=gemini_key)
             res = gemini_client.models.generate_content(
                 model="gemini-3.6-flash",
-                contents=f"{SYSTEM_PROMPT}\n\nUser Question: {user_msg}"
+                contents=f"{effective_sys_prompt}\n\nUser Question: {user_msg}"
             )
             return {"source": "Gemini AI (SurakshAI)", "response": res.text}
         except Exception as e:

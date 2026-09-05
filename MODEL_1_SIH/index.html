@@ -2,708 +2,832 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AapdaSahayak - SIH-2026 Disaster Management Command Portal</title>
-    <meta name="description" content="AI-Powered Disaster Management Command Center, Risk Calculator, Early Warning Radar, and Emergency Classifier for SIH-2026 Practice.">
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SURAKSHAI - Next-Gen Sci-Fi Disaster AI Command Platform</title>
+    <meta name="description" content="SURAKSHAI is a futuristic AI disaster management command center featuring real-time risk telemetry, holographic radar surveillance, ML situational classification, and voice-guided emergency response.">
+    <meta name="theme-color" content="#00f2fe">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23040711'/><circle cx='50' cy='50' r='35' fill='none' stroke='%2300f2fe' stroke-width='6'/><path d='M50 20 L50 80 M20 50 L80 50' stroke='%23ff2a5f' stroke-width='6'/></svg>">
+    
+    <!-- Futuristic Sci-Fi Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=Rajdhani:wght@500;600;700&family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="styles.css?v=2030">
 </head>
-<body>
+<body class="dark-theme scifi-hud">
 
-    <!-- TOP HEADER WITH EMERGENCY CONTACTS & STATUS -->
-    <header class="top-bar">
-        <div class="nav-container">
-            <div class="logo-group">
-                <span class="logo-icon">🚨</span>
-                <div>
-                    <h1 class="logo-title">AapdaSahayak</h1>
-                    <div class="logo-subtitle">SIH-2026 Disaster Management Hub</div>
-                </div>
+    <!-- Ambient Grid & Scanline Background -->
+    <div class="cyber-grid-bg"></div>
+    <div class="hud-scanline"></div>
+
+    <!-- PWA Install Banner -->
+    <div id="pwa-install-banner" class="pwa-install-banner" style="display: none;">
+        <div class="pwa-banner-info">
+            <i class="fa-solid fa-mobile-screen-button text-cyan"></i>
+            <div>
+                <strong>Install SURAKSHAI Sci-Fi HUD App</strong>
+                <p>Deploy to home screen for offline emergency command access</p>
             </div>
+        </div>
+        <div class="pwa-banner-actions">
+            <button class="btn btn-cyber btn-sm" id="btn-pwa-install"><i class="fa-solid fa-download"></i> Install App</button>
+            <button class="btn btn-icon btn-secondary" onclick="dismissPWABanner()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+    </div>
 
-            <!-- System Operational Status Badge -->
-            <div class="status-badge">
-                <span class="pulse-dot"></span>
-                <span>SYSTEM ONLINE • DISASTER READY</span>
+    <!-- Top Futuristic Navigation Header -->
+    <header class="app-header hud-panel">
+        <div class="brand-container" onclick="switchToTab('tab-landing')" style="cursor: pointer;">
+            <div class="logo-shield holographic">
+                <i class="fa-solid fa-shield-halved"></i>
+                <div class="logo-pulse-ring"></div>
             </div>
-
-            <!-- Emergency Helplines Bar -->
-            <div class="emergency-contacts">
-                <div class="contact-card red" title="National Emergency Helpline">
-                    <span>🚓 Police: <strong>112 / 100</strong></span>
-                </div>
-                <div class="contact-card green" title="Medical Emergency Hotline">
-                    <span>🚑 Ambulance: <strong>102 / 108</strong></span>
-                </div>
-                <div class="contact-card orange" title="Fire Rescue Service">
-                    <span>🚒 Fire: <strong>101</strong></span>
-                </div>
-                <div class="contact-card blue" title="National Disaster Response Force">
-                    <span>🛟 NDRF: <strong>1078</strong></span>
-                </div>
-
-                <button class="btn btn-primary" onclick="openEmergencyContactsModal()" style="padding: 6px 14px; font-size: 12px; border-radius: 20px; background: linear-gradient(135deg, #ef4444, #b91c1c); box-shadow: 0 0 12px rgba(239,68,68,0.4);">
-                    📞 View All Emergency Helplines
-                </button>
+            <div class="brand-title">
+                <h1 class="orbitron-text">SURAKSHAI <span class="badge-hud">SYS-v2030</span></h1>
+                <p class="brand-subtitle"><i class="fa-solid fa-microchip text-cyan"></i> AI Emergency Decision & Disaster Command Platform</p>
             </div>
         </div>
 
-        <!-- Emergency Alert Ticker -->
-        <div class="ticker-bar">
-            <span class="ticker-label">LIVE BROADCAST</span>
-            <div class="ticker-text" id="tickerText">
-                ⚠️ FLOOD ALERT: Heavy rainfall advisory active in coastal regions. Monitor local emergency updates. Keep emergency contacts ready.
+        <div class="header-status-group">
+            <div class="hud-lang-toggle">
+                <i class="fa-solid fa-globe text-cyan"></i>
+                <button class="lang-btn active" data-lang="en" onclick="changeAppLanguage('en')">EN</button>
+                <button class="lang-btn" data-lang="hi" onclick="changeAppLanguage('hi')">हिंदी</button>
+                <button class="lang-btn" data-lang="mr" onclick="changeAppLanguage('mr')">मराठी</button>
             </div>
+            <a href="tel:112" class="btn btn-sos-glow" title="Instant Emergency SOS Dispatch">
+                <i class="fa-solid fa-phone-volume"></i> <span>SOS 112</span>
+            </a>
+            <div class="status-pill online hide-mobile">
+                <span class="pulse-dot green"></span>
+                <span id="backend-status-text" data-i18n="system_online">SYSTEM ONLINE</span>
+            </div>
+            <div class="status-pill alert-level hide-mobile" id="global-risk-pill">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span id="global-risk-level" data-i18n="risk_scanning">RISK: SCANNING</span>
+            </div>
+            <div class="live-clock hide-mobile" id="live-clock">00:00:00 UTC</div>
         </div>
     </header>
 
-    <!-- NAVIGATION TAB BAR -->
-    <nav class="nav-tabs-wrapper">
-        <div class="nav-tabs">
-            <button class="tab-btn active" onclick="switchTab('classifier', this)">
-                <span>🚨 Emergency AI Classifier</span>
-            </button>
-            <button class="tab-btn" onclick="switchTab('weather', this)">
-                <span>🛰️ Weather & Risk Engine</span>
-            </button>
-            <button class="tab-btn" onclick="switchTab('earlyWarning', this)">
-                <span>⚠️ Early Warning Radar</span>
-            </button>
-            <button class="tab-btn" onclick="switchTab('locationAdvisory', this)">
-                <span>🗺️ Location Safety Advisory</span>
-            </button>
-            <button class="tab-btn" onclick="switchTab('resource', this)">
-                <span>🚑 Emergency Decision Manager</span>
-            </button>
-            <button class="tab-btn" onclick="switchTab('dataset', this)">
-                <span>📊 Dataset & Model Analytics</span>
-            </button>
-        </div>
+    <!-- Main Futuristic Navigation Bar -->
+    <nav class="nav-tabs-bar desktop-nav hud-nav">
+        <button class="nav-tab active" data-tab="tab-landing">
+            <i class="fa-solid fa-house"></i> <span data-i18n="nav_overview">OVERVIEW</span>
+        </button>
+
+        <button class="nav-tab" data-tab="tab-dashboard">
+            <i class="fa-solid fa-chart-line"></i> <span data-i18n="nav_control_room">CONTROL ROOM</span>
+        </button>
+
+        <button class="nav-tab" data-tab="tab-ml">
+            <i class="fa-solid fa-brain"></i> <span data-i18n="nav_ml_classifier">ML CLASSIFIER</span>
+        </button>
+
+        <button class="nav-tab" data-tab="tab-chatbot">
+            <i class="fa-solid fa-robot"></i> <span data-i18n="nav_surakshai_ai">SURAKSHAI AI</span>
+        </button>
+
+        <button class="nav-tab" data-tab="tab-emergency">
+            <i class="fa-solid fa-truck-medical"></i> <span data-i18n="nav_resource_engine">RESOURCE ENGINE</span>
+        </button>
+
+        <button class="nav-tab" data-tab="tab-advisory">
+            <i class="fa-solid fa-map-location-dot"></i> <span data-i18n="nav_gis_advisory">GIS ADVISORY</span>
+        </button>
+
+        <button class="nav-tab" data-tab="tab-alerts">
+            <i class="fa-solid fa-bell"></i> <span data-i18n="nav_smart_alerts">SMART ALERTS</span>
+        </button>
+
+        <button class="nav-tab" data-tab="tab-helplines">
+            <i class="fa-solid fa-phone-volume"></i> <span data-i18n="nav_helplines">HELPLINES</span>
+        </button>
     </nav>
 
-    <!-- MAIN CONTROL ROOM CONTENT PANELS -->
-    <main class="main-content">
+    <!-- Glowing Alert Ticker Bar -->
+    <div class="alert-ticker-container hud-ticker">
+        <div class="ticker-label"><i class="fa-solid fa-bullhorn"></i> RADAR WARNINGS</div>
+        <div class="ticker-content" id="ticker-content">
+            Initialising telemetry feeds... Scanning satellite meteorological data...
+        </div>
+    </div>
 
-        <!-- ===================================================================
-             MODULE 1: EMERGENCY AI CLASSIFIER
-             =================================================================== -->
-        <section id="classifierPanel" class="tab-panel active">
-            <div class="card-glass">
-                <div class="section-header">
-                    <h2 class="section-title">🚨 Emergency Incident Classifier</h2>
-                    <p class="section-desc">Type or speak your emergency situation to automatically identify disaster category, calculate urgency level, and generate emergency response plans.</p>
+    <!-- Main Content Area -->
+    <main class="main-content-area">
+
+        <!-- TAB 0: FUTURISTIC HERO LANDING PAGE -->
+        <section id="tab-landing" class="tab-pane active">
+            <!-- Hero Holographic Radar Section -->
+            <div class="hero-section glass-card cyber-hud-card">
+                <div class="hud-corner top-left"></div>
+                <div class="hud-corner top-right"></div>
+                <div class="hud-corner bottom-left"></div>
+                <div class="hud-corner bottom-right"></div>
+
+                <div class="hero-content">
+                    <span class="hero-badge-scifi"><i class="fa-solid fa-atom text-amber"></i> NEXT-GEN AI EMERGENCY INTELLIGENCE</span>
+                    <h1 class="hero-title orbitron-text">SURAKSHAI DISASTER COMMAND</h1>
+                    <p class="hero-description">
+                        Autonomous disaster response platform integrating Machine Learning situational text/voice classification, Open-Meteo & GFS 48-Hour predictive weather telemetry, automated NDRF tactical resource allocation, and voice-activated AI safety assistance.
+                    </p>
+
+                    <div class="hero-actions">
+                        <button class="btn btn-cyber btn-lg" onclick="switchToTab('tab-dashboard')">
+                            <i class="fa-solid fa-gauge-high"></i> Open Command Room
+                        </button>
+                        <button class="btn btn-crimson btn-lg" onclick="switchToTab('tab-ml')">
+                            <i class="fa-solid fa-microphone"></i> Voice Emergency Report
+                        </button>
+                        <button class="btn btn-plasma btn-lg" onclick="switchToTab('tab-chatbot')">
+                            <i class="fa-solid fa-robot"></i> SurakshAI Assistant
+                        </button>
+                    </div>
                 </div>
 
-                <div class="classifier-grid">
-                    <!-- Input Section -->
-                    <div class="input-box">
-                        <label for="emergencyText" style="font-size: 13px; font-weight: 600; color: var(--text-muted);">Describe Emergency Situation:</label>
-                        
-                        <div class="textarea-wrapper">
-                            <textarea id="emergencyText" class="emergency-textarea" rows="5" placeholder="Type or speak emergency details... (e.g. Flood water entering ground floor in Andheri, 15 people trapped on roof)"></textarea>
-                            <button id="micBtn" class="mic-btn-input" onclick="startVoiceInput('emergencyText')" title="Speak Emergency Details">🎤</button>
-                        </div>
-
-                        <div class="btn-row">
-                            <button class="btn btn-primary" onclick="predictDisaster()">⚡ Classify Emergency</button>
-                            <button class="btn btn-secondary" onclick="clearInput()">Clear</button>
-                        </div>
-
-                        <div>
-                            <span style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Quick Test Prompts:</span>
-                            <div class="quick-samples">
-                                <span class="sample-chip" onclick="setPrompt('Water entering ground floor in Mumbai, cars submerged, people stranded on rooftop.')">🌊 Severe Flood</span>
-                                <span class="sample-chip" onclick="setPrompt('Massive fire broke out in commercial building 3rd floor, thick black smoke.')">🔥 Commercial Fire</span>
-                                <span class="sample-chip" onclick="setPrompt('Strong shaking felt, cracks appearing in building walls, people panicking outdoors.')">🏚️ Earthquake Tremor</span>
-                                <span class="sample-chip" onclick="setPrompt('Elderly person having severe chest pain and breathlessness, need immediate ambulance.')">🚑 Medical Emergency</span>
-                            </div>
+                <div class="hero-radar-box">
+                    <div class="radar-container holographic-radar">
+                        <div class="radar-sweep"></div>
+                        <div class="radar-circle c1"></div>
+                        <div class="radar-circle c2"></div>
+                        <div class="radar-circle c3"></div>
+                        <div class="radar-blip b1"></div>
+                        <div class="radar-blip b2"></div>
+                        <div class="radar-blip b3"></div>
+                        <div class="radar-center">
+                            <i class="fa-solid fa-crosshairs text-cyan"></i>
                         </div>
                     </div>
+                    <div class="radar-label"><span class="pulse-dot green"></span> SURVEILLANCE RADAR LIVE</div>
+                </div>
+            </div>
 
-                    <!-- Output / Result Section -->
-                    <div class="result-card" id="resultCard">
-                        <div class="result-header">
-                            <div>
-                                <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Disaster Category</span>
-                                <div style="margin-top: 4px;">
-                                    <span id="disasterType" class="disaster-tag Flood">Flood</span>
+            <!-- Hero Language Selector Bar -->
+            <div class="hero-lang-bar glass-card mt-20">
+                <div class="hero-lang-title">
+                    <i class="fa-solid fa-globe text-cyan"></i> SELECT SYSTEM LANGUAGE / भाषा चुनें / भाषा निवडा:
+                </div>
+                <div class="lang-btn-group">
+                    <button class="lang-btn active" data-lang="en" onclick="changeAppLanguage('en')">🇬🇧 English</button>
+                    <button class="lang-btn" data-lang="hi" onclick="changeAppLanguage('hi')">🇮🇳 हिंदी (Hindi)</button>
+                    <button class="lang-btn" data-lang="mr" onclick="changeAppLanguage('mr')">🇮🇳 मराठी (Marathi)</button>
+                </div>
+            </div>
+
+            <!-- Telemetry Stats Row -->
+            <div class="stats-row mt-20">
+                <div class="stat-card glass-card cyber-hud-card">
+                    <div class="stat-icon-wrapper cyan"><i class="fa-solid fa-satellite-dish"></i></div>
+                    <div class="stat-info">
+                        <h3 class="orbitron-text">REAL-TIME</h3>
+                        <p>Open-Meteo & GFS Feeds</p>
+                    </div>
+                </div>
+                <div class="stat-card glass-card cyber-hud-card">
+                    <div class="stat-icon-wrapper purple"><i class="fa-solid fa-microchip"></i></div>
+                    <div class="stat-info">
+                        <h3 class="orbitron-text">ML MATRIX</h3>
+                        <p>5 Trained Situational Models</p>
+                    </div>
+                </div>
+                <div class="stat-card glass-card cyber-hud-card">
+                    <div class="stat-icon-wrapper red"><i class="fa-solid fa-truck-field"></i></div>
+                    <div class="stat-info">
+                        <h3 class="orbitron-text">TACTICAL</h3>
+                        <p>NDRF Action Dispatch</p>
+                    </div>
+                </div>
+                <div class="stat-card glass-card cyber-hud-card">
+                    <div class="stat-icon-wrapper emerald"><i class="fa-solid fa-user-astronaut"></i></div>
+                    <div class="stat-info">
+                        <h3 class="orbitron-text">VOICE AI</h3>
+                        <p>24/7 Citizen Safety Guide</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sci-Fi Feature Cards Grid -->
+            <div class="features-grid mt-20">
+                <div class="feature-card glass-card cyber-hud-card" onclick="switchToTab('tab-dashboard')">
+                    <div class="hud-corner top-left"></div>
+                    <div class="f-icon-box cyan"><i class="fa-solid fa-chart-line"></i></div>
+                    <h3 class="orbitron-text">Command Radar & Telemetry</h3>
+                    <p>Real-time weather parameters, wind gust telemetry, 48-hour GFS predictive graph forecast, and automated risk scoring engine.</p>
+                    <span class="f-link">ACCESS CONTROL ROOM <i class="fa-solid fa-chevron-right"></i></span>
+                </div>
+
+                <div class="feature-card glass-card cyber-hud-card" onclick="switchToTab('tab-ml')">
+                    <div class="hud-corner top-left"></div>
+                    <div class="f-icon-box amber"><i class="fa-solid fa-brain"></i></div>
+                    <h3 class="orbitron-text">ML Emergency Classifier</h3>
+                    <p>Process speech microphone input or emergency text messages to classify disaster types, urgency ratings, and squad dispatch.</p>
+                    <span class="f-link">RUN ML CLASSIFIER <i class="fa-solid fa-chevron-right"></i></span>
+                </div>
+
+                <div class="feature-card glass-card cyber-hud-card" onclick="switchToTab('tab-chatbot')">
+                    <div class="hud-corner top-left"></div>
+                    <div class="f-icon-box purple"><i class="fa-solid fa-robot"></i></div>
+                    <h3 class="orbitron-text">SurakshAI Assistant</h3>
+                    <p>Conversational AI disaster safety guide providing real-time emergency guidance, earthquake protocols, and gas leak instructions.</p>
+                    <span class="f-link">CHAT WITH SURAKSHAI <i class="fa-solid fa-chevron-right"></i></span>
+                </div>
+
+                <div class="feature-card glass-card cyber-hud-card" onclick="switchToTab('tab-emergency')">
+                    <div class="hud-corner top-left"></div>
+                    <div class="f-icon-box red"><i class="fa-solid fa-truck-medical"></i></div>
+                    <h3 class="orbitron-text">Tactical Resource Engine</h3>
+                    <p>Calculates resource pressure scores, impacted population metrics, blocked route diversions, and rescue team shortage warnings.</p>
+                    <span class="f-link">GENERATE ACTION PLAN <i class="fa-solid fa-chevron-right"></i></span>
+                </div>
+
+                <div class="feature-card glass-card cyber-hud-card" onclick="switchToTab('tab-advisory')">
+                    <div class="hud-corner top-left"></div>
+                    <div class="f-icon-box emerald"><i class="fa-solid fa-map-location-dot"></i></div>
+                    <h3 class="orbitron-text">GIS Safety Map & Advisory</h3>
+                    <p>Interactive OpenStreetMap sector surveillance view combined with city-specific Do's and Don'ts checklists for disasters.</p>
+                    <span class="f-link">VIEW GIS RADAR <i class="fa-solid fa-chevron-right"></i></span>
+                </div>
+
+                <div class="feature-card glass-card cyber-hud-card" onclick="switchToTab('tab-alerts')">
+                    <div class="hud-corner top-left"></div>
+                    <div class="f-icon-box blue"><i class="fa-solid fa-bell"></i></div>
+                    <h3 class="orbitron-text">Smart Personalized Alerts</h3>
+                    <p>Configurable notification dispatch engine with quiet hours bypass testing, category filters, and fatigue prevention.</p>
+                    <span class="f-link">CONFIGURE ALERTS <i class="fa-solid fa-chevron-right"></i></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 1: CONTROL ROOM DASHBOARD -->
+        <section id="tab-dashboard" class="tab-pane">
+            <div class="search-bar-row glass-card cyber-hud-card">
+                <div class="search-input-group">
+                    <i class="fa-solid fa-city text-cyan"></i>
+                    <input type="text" id="dashboard-city-input" value="Mumbai" placeholder="Enter Indian City Sector (e.g. Mumbai, Delhi, Chennai, Kolkata)...">
+                    <button class="btn btn-cyber" id="btn-fetch-dashboard">
+                        <i class="fa-solid fa-crosshairs"></i> Analyze Telemetry
+                    </button>
+                </div>
+                <div class="quick-cities">
+                    <span>SECTOR SELECT:</span>
+                    <button class="city-chip" onclick="quickSelectCity('Mumbai')">Mumbai</button>
+                    <button class="city-chip" onclick="quickSelectCity('Delhi')">Delhi</button>
+                    <button class="city-chip" onclick="quickSelectCity('Chennai')">Chennai</button>
+                    <button class="city-chip" onclick="quickSelectCity('Kolkata')">Kolkata</button>
+                    <button class="city-chip" onclick="quickSelectCity('Bengaluru')">Bengaluru</button>
+                    <button class="city-chip" onclick="quickSelectCity('Guwahati')">Guwahati</button>
+                </div>
+            </div>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+
+                <!-- Real-time Weather Card -->
+                <div class="card glass-card cyber-hud-card">
+                    <div class="hud-corner top-left"></div>
+                    <div class="card-header">
+                        <h3 class="orbitron-text"><i class="fa-solid fa-cloud-sun-rain text-cyan"></i> Live Telemetry Feed</h3>
+                        <span class="location-tag" id="weather-location">Mumbai, IN</span>
+                    </div>
+                    <div class="card-body weather-display-body">
+                        <div class="temp-main">
+                            <span class="temp-val orbitron-text" id="weather-temp">--</span><span class="unit">°C</span>
+                        </div>
+                        <div class="weather-metrics-grid">
+                            <div class="metric-item">
+                                <i class="fa-solid fa-droplet text-blue"></i>
+                                <div>
+                                    <span class="m-label">Rainfall</span>
+                                    <span class="m-val orbitron-text" id="weather-rain">-- mm</span>
                                 </div>
                             </div>
-                            <div>
-                                <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Urgency Level</span>
-                                <div style="margin-top: 4px;">
-                                    <span id="urgencyVal" class="urgency-badge CRITICAL">CRITICAL</span>
+                            <div class="metric-item">
+                                <i class="fa-solid fa-wind text-cyan"></i>
+                                <div>
+                                    <span class="m-label">Wind Speed</span>
+                                    <span class="m-val orbitron-text" id="weather-wind">-- km/h</span>
+                                </div>
+                            </div>
+                            <div class="metric-item">
+                                <i class="fa-solid fa-tornado text-amber"></i>
+                                <div>
+                                    <span class="m-label">Wind Gust</span>
+                                    <span class="m-val orbitron-text" id="weather-gust">-- km/h</span>
+                                </div>
+                            </div>
+                            <div class="metric-item">
+                                <i class="fa-solid fa-water text-purple"></i>
+                                <div>
+                                    <span class="m-label">Humidity</span>
+                                    <span class="m-val orbitron-text" id="weather-humidity">-- %</span>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
 
-                        <div class="meta-row">
-                            <span>AI Confidence: <strong id="confidenceVal" style="color: var(--success-green);">94.5%</strong></span>
-                            <span>Model: <strong style="color: var(--alert-blue);">TF-IDF Logistic Regression</strong></span>
+                <!-- Risk Engine Score Card -->
+                <div class="card glass-card cyber-hud-card">
+                    <div class="hud-corner top-right"></div>
+                    <div class="card-header">
+                        <h3 class="orbitron-text"><i class="fa-solid fa-gauge-high text-amber"></i> Risk Assessment Meter</h3>
+                        <span class="badge-risk" id="risk-level-badge">LOW</span>
+                    </div>
+                    <div class="card-body risk-body">
+                        <div class="risk-score-display">
+                            <div class="score-circle holographic-circle" id="score-circle">
+                                <span class="score-num orbitron-text" id="risk-score-val">0</span>
+                                <span class="score-max">/100</span>
+                            </div>
+                            <div class="risk-factors-list">
+                                <h4 class="rajdhani-text">DETECTED HAZARD FACTORS:</h4>
+                                <ul id="risk-factors-ul">
+                                    <li>Normal meteorological parameters</li>
+                                </ul>
+                            </div>
                         </div>
-
-                        <div class="info-block">
-                            <h4>📋 Recommended Immediate Action:</h4>
-                            <p id="responsePlan">Send rescue team and provide evacuation and shelter information.</p>
-                        </div>
-
-                        <div class="info-block" style="border-left-color: var(--warning-orange);">
-                            <h4>🛟 Required Assistance & Dispatch:</h4>
-                            <p id="assistancePlan">Search & rescue boat, temporary shelter, emergency medical team.</p>
+                        <div class="risk-decision-box">
+                            <h4 class="rajdhani-text"><i class="fa-solid fa-robot"></i> CONTROL ROOM TACTICAL RECOMMENDATION</h4>
+                            <p id="risk-decision-text">Loading telemetry recommendations...</p>
                         </div>
                     </div>
                 </div>
+
+                <!-- Early Warning Alerts Card -->
+                <div class="card glass-card full-width cyber-hud-card">
+                    <div class="card-header">
+                        <h3 class="orbitron-text"><i class="fa-solid fa-triangle-exclamation text-crimson"></i> Active Early Warning Feeds</h3>
+                        <span class="alert-count-tag" id="early-warning-count">0 Active Warnings</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="warning-cards-container" id="warning-cards-container">
+                            <div class="empty-state">No critical early warnings active in this sector.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GFS 2-Day Forecast Chart Card -->
+                <div class="card glass-card full-width cyber-hud-card">
+                    <div class="card-header">
+                        <h3 class="orbitron-text"><i class="fa-solid fa-chart-area text-emerald"></i> GFS 48-Hour Meteorological Telemetry</h3>
+                        <span class="gfs-tag">Global Forecast System</span>
+                    </div>
+                    <div class="card-body chart-container">
+                        <canvas id="gfs-chart" height="110"></canvas>
+                    </div>
+                </div>
+
             </div>
         </section>
 
-
-        <!-- ===================================================================
-             MODULE 2: LIVE WEATHER & DISASTER RISK ENGINE
-             =================================================================== -->
-        <section id="weatherPanel" class="tab-panel">
-            <div class="card-glass">
-                <div class="section-header">
-                    <h2 class="section-title">🛰️ Live Weather & Disaster Risk Analyzer</h2>
-                    <p class="section-desc">Fetch real-time Open-Meteo weather parameters, assess atmospheric risk factors, and calculate live disaster risk index for any city.</p>
-                </div>
-
-                <div class="weather-search-bar">
-                    <input type="text" id="cityInput" class="input-text" value="Mumbai" placeholder="Enter Indian City (e.g. Mumbai, Delhi, Kolkata, Wayanad)...">
-                    <button class="btn btn-primary" onclick="fetchCityRisk()">Analyze Risk</button>
-                </div>
-
-                <!-- Metrics Grid -->
-                <div class="weather-metrics-grid">
-                    <div class="metric-card">
-                        <div class="metric-icon">🌡️</div>
-                        <div>
-                            <div class="metric-val" id="wTemp">29.4 °C</div>
-                            <div class="metric-lbl">Temperature</div>
-                        </div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-icon">🌧️</div>
-                        <div>
-                            <div class="metric-val" id="wRain">35.0 mm</div>
-                            <div class="metric-lbl">Precipitation / Rain</div>
-                        </div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-icon">💨</div>
-                        <div>
-                            <div class="metric-val" id="wWind">42.5 km/h</div>
-                            <div class="metric-lbl">Wind Speed</div>
-                        </div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-icon">💧</div>
-                        <div>
-                            <div class="metric-val" id="wHumidity">88%</div>
-                            <div class="metric-lbl">Relative Humidity</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Risk Assessment Gauge Box -->
-                <div class="risk-gauge-box">
-                    <div style="display: flex; align-items: center; gap: 20px;">
-                        <div class="risk-score-circle">
-                            <span class="score-num" id="riskScoreVal">65</span>
-                            <span class="score-lbl">RISK SCORE</span>
-                        </div>
-                        <div>
-                            <span style="font-size: 12px; color: var(--text-muted);">OVERALL RISK LEVEL</span>
-                            <h3 id="riskLevelText" style="font-family: var(--font-heading); font-size: 28px; color: var(--warning-orange);">HIGH RISK</h3>
-                            <p id="riskCityLoc" style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Location: Mumbai (19.07°N, 72.87°E)</p>
-                        </div>
-                    </div>
-
-                    <div class="risk-factors-list" id="riskFactorsContainer">
-                        <div class="risk-factor-item">⚠️ Heavy rainfall detected</div>
-                        <div class="risk-factor-item">⚠️ Strong winds detected</div>
-                    </div>
-                </div>
+        <!-- TAB 2: ML DISASTER & URGENCY CLASSIFIER -->
+        <section id="tab-ml" class="tab-pane">
+            <div class="section-intro">
+                <h2 class="orbitron-text"><i class="fa-solid fa-brain text-cyan"></i> Machine Learning Situational Classifier</h2>
+                <p>TF-IDF + Logistic Regression ML classification matrix trained on situational emergency data (`disaster_data.csv`). Supports real-time text analysis or voice speech recognition.</p>
             </div>
-        </section>
 
-
-        <!-- ===================================================================
-             MODULE 3: EARLY WARNING & GFS FORECAST RADAR (backend/early_warning.py)
-             =================================================================== -->
-        <section id="earlyWarningPanel" class="tab-panel">
-            <div class="card-glass">
-                <div class="section-header">
-                    <h2 class="section-title">⚠️ Early Warning System & GFS Forecast Radar</h2>
-                    <p class="section-desc">Powered by <code>backend/early_warning.py</code>. Real-time atmospheric parameter threshold alerts and 48-hour Meteorological Forecast warning engine.</p>
-                </div>
-
-                <div class="risk-factors-list" id="earlyWarningList" style="margin-bottom: 24px;">
-                    <div class="risk-factor-item" style="background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.4); color: #fca5a5;">
-                        <span>🚨 <strong>CRITICAL FLOOD / EXTREME RAINFALL WARNING</strong>: Heavy precipitation detected. Waterlogging expected in low-lying sectors. Move to safer areas.</span>
+            <div class="ml-grid">
+                <div class="card glass-card cyber-hud-card">
+                    <div class="hud-corner top-left"></div>
+                    <div class="card-header">
+                        <h3 class="orbitron-text"><i class="fa-solid fa-keyboard"></i> Emergency Telemetry Input</h3>
                     </div>
-                    <div class="risk-factor-item" style="background: rgba(249,115,22,0.15); border-color: rgba(249,115,22,0.4); color: #fdba74;">
-                        <span>🌪️ <strong>STRONG WIND ADVISORY</strong>: Wind gusts reaching 55 km/h. Secure loose outdoor structures and stay away from old trees.</span>
-                    </div>
-                </div>
-
-                <h3 style="font-family: var(--font-heading); font-size: 16px; color: #fff; margin-bottom: 12px;">🛰️ 48-Hour GFS Forecast Alert Projections:</h3>
-                <div class="weather-metrics-grid" id="forecastTimelineGrid">
-                    <div class="metric-card">
-                        <div class="metric-icon">⛈️</div>
-                        <div>
-                            <div style="font-size: 11px; color: var(--text-muted);">+6 Hours</div>
-                            <div class="metric-val" style="font-size: 16px;">Heavy Rainfall</div>
-                            <div class="metric-lbl">Precipitation > 25mm/h</div>
-                        </div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-icon">💨</div>
-                        <div>
-                            <div style="font-size: 11px; color: var(--text-muted);">+18 Hours</div>
-                            <div class="metric-val" style="font-size: 16px;">Gale Wind Warning</div>
-                            <div class="metric-lbl">Wind Gusts > 60 km/h</div>
-                        </div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-icon">☀️</div>
-                        <div>
-                            <div style="font-size: 11px; color: var(--text-muted);">+36 Hours</div>
-                            <div class="metric-val" style="font-size: 16px;">High Temperature</div>
-                            <div class="metric-lbl">Temperature > 38 °C</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- ===================================================================
-             MODULE 4: LOCATION SAFETY ADVISORY (backend/location_advisory.py)
-             =================================================================== -->
-        <section id="locationAdvisoryPanel" class="tab-panel">
-            <div class="card-glass">
-                <div class="section-header">
-                    <h2 class="section-title">🗺️ Location Safety Advisory & Precaution Guide</h2>
-                    <p class="section-desc">Powered by <code>backend/location_advisory.py</code>. City-specific safety recommendations and danger precautions tailored to disaster categories across India.</p>
-                </div>
-
-                <div class="weather-search-bar" style="max-width: 800px;">
-                    <input type="text" id="advCityInput" class="input-text" value="Mumbai" placeholder="Enter City (e.g. Mumbai, Shimla, Wayanad)...">
-                    <select id="advDisasterType" class="input-text" style="max-width: 220px;" onchange="loadLocationAdvisory()">
-                        <option value="flood">Flood Safety</option>
-                        <option value="cyclone">Cyclone Safety</option>
-                        <option value="landslide">Landslide Safety</option>
-                        <option value="fire">Fire Safety</option>
-                        <option value="heavy rainfall">Heavy Rainfall</option>
-                        <option value="general">General Disaster</option>
-                    </select>
-                    <button class="btn btn-primary" onclick="loadLocationAdvisory()">Get Advisory</button>
-                </div>
-
-                <div class="classifier-grid">
-                    <!-- Recommended Actions -->
-                    <div class="info-block" style="border-left-color: var(--success-green); background: rgba(16, 185, 129, 0.05);">
-                        <h4 style="color: #6ee7b7;">✅ Recommended Immediate Actions:</h4>
-                        <ul id="advActionsList" style="padding-left: 18px; color: var(--text-main); font-size: 13px; line-height: 1.8;">
-                            <li>Move to safer or elevated areas if flood water levels increase.</li>
-                            <li>Monitor official local flood and weather broadcasts.</li>
-                            <li>Keep emergency battery supplies and important documents ready.</li>
-                            <li>Use alternate elevated routes if low-lying roads are waterlogged.</li>
-                        </ul>
-                    </div>
-
-                    <!-- Things to Avoid -->
-                    <div class="info-block" style="border-left-color: var(--primary-red); background: rgba(239, 68, 68, 0.05);">
-                        <h4 style="color: #fca5a5;">🛑 Dangerous Things to Avoid:</h4>
-                        <ul id="advAvoidList" style="padding-left: 18px; color: var(--text-main); font-size: 13px; line-height: 1.8;">
-                            <li>Do not walk or drive into flooded roads or moving water currents.</li>
-                            <li>Avoid touching fallen electrical cables or submerged transformer boxes.</li>
-                            <li>Do not consume unboiled or potentially contaminated tap water.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- ===================================================================
-             MODULE 5: RESOURCE MANAGER & EMERGENCY DECISION ENGINE
-             =================================================================== -->
-        <section id="resourcePanel" class="tab-panel">
-            <div class="card-glass">
-                <div class="section-header">
-                    <h2 class="section-title">🚑 Emergency Resource & Decision Manager</h2>
-                    <p class="section-desc">Simulate emergency resource pressure, calculate deployment priority, and generate control-room AI response decisions.</p>
-                </div>
-
-                <!-- Quick Scenario Preset Chips -->
-                <div style="margin-bottom: 16px;">
-                    <span style="font-size: 12px; color: var(--text-muted); font-weight: 600;">Test Presets:</span>
-                    <div class="quick-samples" style="margin-top: 6px;">
-                        <span class="sample-chip" onclick="loadScenario('Flood', 'Flash flooding reported in urban residential sectors', 650, 2, 3, 4, 3)">🌊 Urban Flood</span>
-                        <span class="sample-chip" onclick="loadScenario('Fire', 'Massive fire broke out in chemical factory near chawl', 300, 1, 2, 2, 4)">🔥 Factory Fire</span>
-                        <span class="sample-chip" onclick="loadScenario('Earthquake', 'Building collapse after strong shaking and tremors', 1200, 2, 4, 5, 6)">🏚️ Earthquake</span>
-                        <span class="sample-chip" onclick="loadScenario('Gas Leak', 'Toxic gas leak from industrial cylinder', 450, 3, 2, 3, 2)">☣️ Gas Leak</span>
-                        <span class="sample-chip" onclick="loadScenario('Landslide', 'Mountain landslide blocking main ghat highway', 180, 1, 1, 1, 5)">⛰️ Landslide</span>
-                    </div>
-                </div>
-
-                <div class="resource-grid">
-                    <!-- Resource Inputs -->
-                    <div>
-                        <div class="form-group">
-                            <label>Emergency Situation Description:</label>
-                            <input type="text" id="resSituation" class="input-text" value="Flash flooding reported in urban low-lying residential sectors" oninput="generateEmergencyPlan()">
-                        </div>
-
-                        <div class="form-row-2">
-                            <div class="form-group">
-                                <label>People Affected / Stranded:</label>
-                                <input type="number" id="resPeople" class="input-num" value="650" min="0" oninput="generateEmergencyPlan()">
-                            </div>
-                            <div class="form-group">
-                                <label>Rescue Teams Deployed:</label>
-                                <input type="number" id="resTeams" class="input-num" value="2" min="0" oninput="generateEmergencyPlan()">
-                            </div>
-                        </div>
-
-                        <div class="form-row-2">
-                            <div class="form-group">
-                                <label>Ambulances On Duty:</label>
-                                <input type="number" id="resAmbulances" class="input-num" value="3" min="0" oninput="generateEmergencyPlan()">
-                            </div>
-                            <div class="form-group">
-                                <label>Nearby Hospitals Active:</label>
-                                <input type="number" id="resHospitals" class="input-num" value="4" min="0" oninput="generateEmergencyPlan()">
-                            </div>
+                    <div class="card-body">
+                        <div class="input-mode-toggle">
+                            <button class="mode-btn active" id="btn-mode-text"><i class="fa-solid fa-font"></i> Text Input</button>
+                            <button class="mode-btn" id="btn-mode-voice"><i class="fa-solid fa-microphone"></i> Voice Microphone</button>
                         </div>
 
                         <div class="form-group">
-                            <label>Blocked Roads / Arteries:</label>
-                            <input type="number" id="resBlockedRoads" class="input-num" value="3" min="0" oninput="generateEmergencyPlan()">
+                            <label for="ml-message-input" class="rajdhani-text">EMERGENCY SITUATION DESCRIPTION:</label>
+                            <textarea id="ml-message-input" rows="4" placeholder="e.g. Floodwater is rising rapidly near the main road and people are trapped on the ground floor..."></textarea>
                         </div>
 
-                        <button class="btn btn-primary" onclick="generateEmergencyPlan()" style="width: 100%; margin-top: 10px;">⚡ Generate Decision & Comprehensive Action Plan</button>
-                    </div>
-
-                    <!-- AI Decision Result Output -->
-                    <div class="result-card" id="resResultCard">
-                        <div class="result-header">
-                            <div>
-                                <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Resource Pressure Score</span>
-                                <div style="font-family: var(--font-heading); font-size: 24px; font-weight: 800; color: var(--primary-red);" id="resPressureScore">65 / 100</div>
+                        <div class="voice-controls" id="voice-controls" style="display: none;">
+                            <button class="btn btn-crimson mic-pulse-btn" id="btn-start-speech">
+                                <i class="fa-solid fa-microphone"></i> <span id="mic-btn-text">Start Voice Telemetry</span>
+                            </button>
+                            <!-- Audio Wave Visualizer Animation -->
+                            <div class="audio-wave-bars">
+                                <span></span><span></span><span></span><span></span><span></span>
                             </div>
-                            <div>
-                                <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Deployment Priority</span>
-                                <div style="margin-top: 4px;">
-                                    <span class="urgency-badge HIGH" id="resPriorityBadge">HIGH</span>
+                            <div class="speech-status" id="speech-status-text">Click button and speak emergency situation into microphone...</div>
+                        </div>
+
+                        <div class="sample-prompts">
+                            <span>SAMPLE TELEMETRY:</span>
+                            <button class="sample-btn" onclick="setMLSample('Floodwater has entered several houses and streets are submerged.')">🌊 Flood Alert</button>
+                            <button class="sample-btn" onclick="setMLSample('Huge fire broke out in commercial building with heavy smoke.')">🔥 Fire Emergency</button>
+                            <button class="sample-btn" onclick="setMLSample('Earthquake tremor collapsed old structure, people trapped in debris.')">🏚️ Earthquake</button>
+                            <button class="sample-btn" onclick="setMLSample('Landslide on mountain highway blocked all traffic.')">⛰️ Landslide</button>
+                        </div>
+
+                        <button class="btn btn-emerald btn-block mt-15" id="btn-run-ml">
+                            <i class="fa-solid fa-bolt"></i> Run ML Classification Matrix
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ML Output Results -->
+                <div class="card glass-card cyber-hud-card">
+                    <div class="hud-corner top-right"></div>
+                    <div class="card-header">
+                        <h3 class="orbitron-text"><i class="fa-solid fa-square-poll-vertical text-emerald"></i> Classification Results</h3>
+                        <span class="badge-tag" id="ml-status-badge">Awaiting Input</span>
+                    </div>
+                    <div class="card-body" id="ml-results-body">
+                        <div class="empty-state">
+                            <i class="fa-solid fa-microchip empty-icon text-cyan"></i>
+                            <p>Submit emergency telemetry to calculate disaster classification, urgency rating, and required assistance squad.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: SURAKSHAI AI CHATBOT -->
+        <section id="tab-chatbot" class="tab-pane">
+            <div class="section-intro">
+                <h2 class="orbitron-text"><i class="fa-solid fa-robot text-purple"></i> SurakshAI - AI Safety Assistant</h2>
+                <p>Interactive AI disaster safety assistant providing instant step-by-step guidance during earthquakes, floods, fires, cyclones, and gas leaks.</p>
+            </div>
+
+            <div class="chat-wrapper glass-card cyber-hud-card">
+                <div class="hud-corner top-left"></div>
+                <div class="hud-corner top-right"></div>
+
+                <div class="chat-header">
+                    <div class="avatar-box holographic">
+                        <i class="fa-solid fa-user-astronaut"></i>
+                    </div>
+                    <div class="chat-title">
+                        <h3 class="orbitron-text">SurakshAI Neural Guide</h3>
+                        <span class="subtext"><span class="pulse-dot green"></span> Neural Engine Active (Groq / Gemini / In-Browser NLP)</span>
+                    </div>
+                    <div class="lang-btn-group-header" style="margin-left: auto;">
+                        <button class="lang-btn active" data-lang="en" onclick="changeAppLanguage('en')">🇬🇧 English</button>
+                        <button class="lang-btn" data-lang="hi" onclick="changeAppLanguage('hi')">🇮🇳 हिंदी</button>
+                        <button class="lang-btn" data-lang="mr" onclick="changeAppLanguage('mr')">🇮🇳 मराठी</button>
+                    </div>
+                </div>
+
+                <div class="chat-messages" id="chat-messages">
+                    <div class="chat-bubble bot-bubble">
+                        <div class="bubble-icon"><i class="fa-solid fa-robot"></i></div>
+                        <div class="bubble-content">
+                            <strong>Namaste! I am SurakshAI, your AI Disaster Safety Assistant.</strong>
+                            <p>How can I assist you today? You can ask me emergency protocols, helpline numbers, or immediate survival instructions.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-chips-row">
+                    <button class="chip-btn" onclick="sendQuickChat('What should I do during an Earthquake in a building?')">🏢 Earthquake Protocol</button>
+                    <button class="chip-btn" onclick="sendQuickChat('What to do if flood water enters my home?')">🌊 Flood Survival</button>
+                    <button class="chip-btn" onclick="sendQuickChat('How to respond to a domestic gas leak?')">☣️ Gas Leak Steps</button>
+                    <button class="chip-btn" onclick="sendQuickChat('What are emergency helpline numbers in India?')">📞 Helpline Numbers</button>
+                </div>
+
+                <div class="chat-input-row">
+                    <button class="btn btn-icon btn-secondary" id="btn-chat-voice" title="Voice Input">
+                        <i class="fa-solid fa-microphone text-cyan"></i>
+                    </button>
+                    <input type="text" id="chat-input-text" placeholder="Type your emergency query or speak into microphone..." onkeydown="if(event.key==='Enter') sendChatMessage()">
+                    <button class="btn btn-cyber" id="btn-send-chat" onclick="sendChatMessage()">
+                        <i class="fa-solid fa-paper-plane"></i> Send
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: EMERGENCY MANAGER & PLAN CREATOR -->
+        <section id="tab-emergency" class="tab-pane">
+            <div class="section-intro">
+                <h2 class="orbitron-text"><i class="fa-solid fa-truck-medical text-crimson"></i> Tactical Resource Engine</h2>
+                <p>AI Emergency Decision Manager. Simulates resource pressure metrics, identifies category-specific NDRF protocols, and generates dispatch plans.</p>
+            </div>
+
+            <div class="emergency-grid">
+                <div class="card glass-card cyber-hud-card">
+                    <div class="hud-corner top-left"></div>
+                    <div class="card-header">
+                        <h3 class="orbitron-text"><i class="fa-solid fa-sliders"></i> Tactical Inputs</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="emergency-plan-form" onsubmit="event.preventDefault(); generateEmergencyPlan();">
+                            <div class="form-group">
+                                <label for="em-situation" class="rajdhani-text">DISASTER SITUATION DESCRIPTION:</label>
+                                <input type="text" id="em-situation" value="Severe urban flood reported with trapped citizens" required>
+                            </div>
+
+                            <div class="form-row-2">
+                                <div class="form-group">
+                                    <label for="em-affected" class="rajdhani-text">PEOPLE AFFECTED:</label>
+                                    <input type="number" id="em-affected" value="650" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="em-rescue" class="rajdhani-text">RESCUE TEAMS:</label>
+                                    <input type="number" id="em-rescue" value="2" min="0">
                                 </div>
                             </div>
+
+                            <div class="form-row-3">
+                                <div class="form-group">
+                                    <label for="em-ambulances" class="rajdhani-text">AMBULANCES:</label>
+                                    <input type="number" id="em-ambulances" value="3" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="em-hospitals" class="rajdhani-text">HOSPITALS READY:</label>
+                                    <input type="number" id="em-hospitals" value="4" min="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="em-roads" class="rajdhani-text">BLOCKED ROADS:</label>
+                                    <input type="number" id="em-roads" value="3" min="0">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-crimson btn-block mt-15">
+                                <i class="fa-solid fa-gears"></i> Calculate Tactical Action Plan
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card glass-card cyber-hud-card">
+                    <div class="hud-corner top-right"></div>
+                    <div class="card-header">
+                        <h3 class="orbitron-text"><i class="fa-solid fa-clipboard-list text-amber"></i> Action Plan Output</h3>
+                        <span class="badge-tag" id="em-priority-badge">PRIORITY: NORMAL</span>
+                    </div>
+                    <div class="card-body" id="em-plan-result">
+                        <div class="empty-state">Submit situation parameters to compute resource pressure score and dispatch instructions.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: LOCATION ADVISORY & MAP -->
+        <section id="tab-advisory" class="tab-pane">
+            <div class="section-intro">
+                <h2 class="orbitron-text"><i class="fa-solid fa-map-location-dot text-emerald"></i> GIS Sector Radar & Advisory</h2>
+                <p>Location-specific action guides (Do's and Don'ts) tailored for specific disaster types and interactive GIS sector monitoring map.</p>
+            </div>
+
+            <div class="advisory-grid">
+                <div class="card glass-card cyber-hud-card">
+                    <div class="hud-corner top-left"></div>
+                    <div class="card-header">
+                        <h3 class="orbitron-text"><i class="fa-solid fa-filter"></i> Sector Advisory Filter</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="advisory-city" class="rajdhani-text">SECTOR CITY LOCATION:</label>
+                            <input type="text" id="advisory-city" value="Mumbai">
+                        </div>
+                        <div class="form-group">
+                            <label for="advisory-type" class="rajdhani-text">DISASTER CATEGORY:</label>
+                            <select id="advisory-type">
+                                <option value="flood">Flood</option>
+                                <option value="cyclone">Cyclone</option>
+                                <option value="landslide">Landslide</option>
+                                <option value="fire">Fire</option>
+                                <option value="heavy rainfall">Heavy Rainfall</option>
+                                <option value="general">General</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-cyber btn-block" onclick="fetchLocationAdvisory()">
+                            <i class="fa-solid fa-shield-cat"></i> Generate Sector Advisory
+                        </button>
+
+                        <div class="dos-donts-container mt-20" id="dos-donts-container">
+                            <div class="advisory-box dos">
+                                <h4 class="rajdhani-text"><i class="fa-solid fa-circle-check"></i> RECOMMENDED TACTICAL ACTIONS</h4>
+                                <ul id="advisory-dos-ul">
+                                    <li>Fetching sector advisory...</li>
+                                </ul>
+                            </div>
+                            <div class="advisory-box donts mt-15">
+                                <h4 class="rajdhani-text"><i class="fa-solid fa-circle-xmark"></i> HAZARDS TO AVOID</h4>
+                                <ul id="advisory-donts-ul">
+                                    <li>Fetching sector advisory...</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card glass-card cyber-hud-card">
+                    <div class="hud-corner top-right"></div>
+                    <div class="card-header">
+                        <h3 class="orbitron-text"><i class="fa-solid fa-earth-asia"></i> GIS Interactive Sector Map</h3>
+                        <span class="location-tag" id="map-location-tag">Mumbai, India</span>
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="gis-map" style="height: 480px; width: 100%; border-radius: 0 0 12px 12px;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 6: SMART ALERTS ENGINE -->
+        <section id="tab-alerts" class="tab-pane">
+            <div class="section-intro">
+                <h2 class="orbitron-text"><i class="fa-solid fa-bell text-amber"></i> Smart Alert Engine</h2>
+                <p>Personalized notification engine filtering disaster alerts based on user subscriptions, quiet hours, and frequency fatigue prevention.</p>
+            </div>
+
+            <div class="alerts-grid">
+                <div class="card glass-card cyber-hud-card">
+                    <div class="hud-corner top-left"></div>
+                    <div class="card-header">
+                        <h3 class="orbitron-text"><i class="fa-solid fa-paper-plane"></i> Alert Dispatch Simulator</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="alert-user-id" class="rajdhani-text">USER TELEMETRY ID:</label>
+                            <input type="text" id="alert-user-id" value="user_101" readonly>
                         </div>
 
-                        <div class="info-block">
-                            <h4>🎯 Comprehensive Recommended Action Plan:</h4>
-                            <ul id="resActionsList" style="padding-left: 18px; color: var(--text-main); font-size: 13px; line-height: 1.7;">
-                                <li>🚨 Deploy search & rescue units immediately to assist affected citizens.</li>
-                                <li>🚧 Mobilize heavy machinery and road clearance crews for blocked arterial roads.</li>
-                                <li>🚑 Request emergency backup ambulances from neighboring district health units.</li>
-                                <li>🏥 Alert triage departments across nearby hospitals to reserve emergency beds.</li>
-                                <li>🛟 Call for additional NDRF / SDRF specialized rescue battalion deployment.</li>
-                                <li>📢 Broadcast location-based emergency evacuation advisories and SMS warning alerts.</li>
+                        <div class="form-group">
+                            <label for="alert-category" class="rajdhani-text">DISASTER CATEGORY:</label>
+                            <select id="alert-category">
+                                <option value="flood">Flood</option>
+                                <option value="cyclone">Cyclone</option>
+                                <option value="heavy_rain">Heavy Rain</option>
+                                <option value="heatwave">Heatwave</option>
+                                <option value="landslide">Landslide</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="alert-severity" class="rajdhani-text">SEVERITY THRESHOLD:</label>
+                            <select id="alert-severity">
+                                <option value="HIGH">HIGH (Standard Notification)</option>
+                                <option value="CRITICAL">CRITICAL (Bypasses Quiet Hours & Fatigue)</option>
+                            </select>
+                        </div>
+
+                        <button class="btn btn-amber btn-block" onclick="testSmartAlert()">
+                            <i class="fa-solid fa-paper-plane"></i> Dispatch Test Smart Alert
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card glass-card cyber-hud-card">
+                    <div class="hud-corner top-right"></div>
+                    <div class="card-header">
+                        <h3 class="orbitron-text"><i class="fa-solid fa-user-gear"></i> Telemetry Logs</h3>
+                    </div>
+                    <div class="card-body" id="smart-alert-result">
+                        <div class="user-profile-summary">
+                            <h4 class="rajdhani-text"><i class="fa-solid fa-user"></i> USER PREFERENCES (user_101)</h4>
+                            <ul>
+                                <li><strong>Subscribed Categories:</strong> flood, cyclone, heavy_rain, heatwave, landslide</li>
+                                <li><strong>Notification Channels:</strong> Push Notification</li>
+                                <li><strong>Quiet Hours:</strong> 22:00 PM to 07:00 AM</li>
+                                <li><strong>Frequency Cap:</strong> Max 2 alerts per hour (CRITICAL alerts bypass)</li>
                             </ul>
                         </div>
-
-                        <div class="info-block" style="border-left-color: var(--alert-blue);">
-                            <h4>🤖 Control Room AI Operational Summary:</h4>
-                            <p id="resAiSummary" style="font-size: 13px;">High resource strain detected due to stranded population and road blockages. Recommend immediate dispatch of backup NDRF personnel, opening emergency transit corridors, and notifying district emergency control room.</p>
+                        <div class="dispatch-log-box mt-15" id="alert-log-box">
+                            <div class="empty-state">Dispatch a test alert to evaluate engine filters (SENT, DELAYED during quiet hours, or SUPPRESSED).</div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- TAB 7: EMERGENCY HELPLINE DIRECTORY -->
+        <section id="tab-helplines" class="tab-pane">
+            <div class="section-intro">
+                <h2 class="orbitron-text"><i class="fa-solid fa-phone-volume text-crimson"></i> National Emergency Helplines (India)</h2>
+                <p>Direct one-touch communication channels for national disaster dispatch, ambulance corps, fire rescue, and law enforcement.</p>
+            </div>
 
-        <!-- ===================================================================
-             MODULE 6: DISASTER DATASET & ANALYTICS (disaster_data.csv & ml_model.py)
-             =================================================================== -->
-        <section id="datasetPanel" class="tab-panel">
-            <div class="card-glass">
-                <div class="section-header">
-                    <h2 class="section-title">📊 Disaster Dataset & Machine Learning Analytics</h2>
-                    <p class="section-desc">Powered by <code>disaster_data.csv</code> and <code>ml_model.py</code>. Real-world emergency dataset logs and TF-IDF Logistic Regression metrics.</p>
+            <div class="helplines-grid">
+                <div class="helpline-card glass-card cyber-hud-card">
+                    <div class="hud-corner top-left"></div>
+                    <div class="h-icon red"><i class="fa-solid fa-phone-square"></i></div>
+                    <div class="h-details">
+                        <h3 class="orbitron-text">NATIONAL EMERGENCY</h3>
+                        <span class="h-number orbitron-text">112</span>
+                        <p>Unified line for Police, Fire, and Ambulance</p>
+                    </div>
+                    <a href="tel:112" class="btn btn-crimson btn-sm"><i class="fa-solid fa-phone"></i> CALL 112</a>
                 </div>
 
-                <div class="weather-metrics-grid">
-                    <div class="metric-card">
-                        <div class="metric-icon">📑</div>
-                        <div>
-                            <div class="metric-val">151</div>
-                            <div class="metric-lbl">Total Emergency Records</div>
-                        </div>
+                <div class="helpline-card glass-card cyber-hud-card">
+                    <div class="hud-corner top-left"></div>
+                    <div class="h-icon amber"><i class="fa-solid fa-shield-cat"></i></div>
+                    <div class="h-details">
+                        <h3 class="orbitron-text">NDRF CONTROL ROOM</h3>
+                        <span class="h-number orbitron-text">1078 / 011-24363260</span>
+                        <p>National Disaster Response Force Dispatch</p>
                     </div>
-                    <div class="metric-card">
-                        <div class="metric-icon">🏷️</div>
-                        <div>
-                            <div class="metric-val">5</div>
-                            <div class="metric-lbl">Disaster Classes</div>
-                        </div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-icon">🎯</div>
-                        <div>
-                            <div class="metric-val" style="color: var(--success-green);">92.5%</div>
-                            <div class="metric-lbl">Model Accuracy Score</div>
-                        </div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-icon">🔤</div>
-                        <div>
-                            <div class="metric-val" style="color: var(--alert-blue);">450+</div>
-                            <div class="metric-lbl">TF-IDF Feature Terms</div>
-                        </div>
-                    </div>
+                    <a href="tel:1078" class="btn btn-amber btn-sm"><i class="fa-solid fa-phone"></i> CALL 1078</a>
                 </div>
 
-                <div class="info-block" style="margin-top: 10px;">
-                    <h4>📊 Class Distribution Breakdown:</h4>
-                    <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
-                        <div>
-                            <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
-                                <span>🌊 Flood Emergencies</span>
-                                <span>31 Records (20.5%)</span>
-                            </div>
-                            <div style="height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden;">
-                                <div style="width: 20.5%; height: 100%; background: #3b82f6;"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
-                                <span>🔥 Fire Incidents</span>
-                                <span>30 Records (19.8%)</span>
-                            </div>
-                            <div style="height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden;">
-                                <div style="width: 19.8%; height: 100%; background: #ef4444;"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
-                                <span>🏚️ Earthquake Tremors</span>
-                                <span>30 Records (19.8%)</span>
-                            </div>
-                            <div style="height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden;">
-                                <div style="width: 19.8%; height: 100%; background: #f97316;"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
-                                <span>🚑 Medical Emergencies</span>
-                                <span>30 Records (19.8%)</span>
-                            </div>
-                            <div style="height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden;">
-                                <div style="width: 19.8%; height: 100%; background: #10b981;"></div>
-                            </div>
-                        </div>
+                <div class="helpline-card glass-card cyber-hud-card">
+                    <div class="hud-corner top-left"></div>
+                    <div class="h-icon cyan"><i class="fa-solid fa-truck-medical"></i></div>
+                    <div class="h-details">
+                        <h3 class="orbitron-text">AMBULANCE & HEALTH</h3>
+                        <span class="h-number orbitron-text">108 / 102</span>
+                        <p>Emergency medical triage & ALS transport</p>
                     </div>
+                    <a href="tel:108" class="btn btn-cyber btn-sm"><i class="fa-solid fa-phone"></i> CALL 108</a>
+                </div>
+
+                <div class="helpline-card glass-card cyber-hud-card">
+                    <div class="hud-corner top-left"></div>
+                    <div class="h-icon red"><i class="fa-solid fa-fire-extinguisher"></i></div>
+                    <div class="h-details">
+                        <h3 class="orbitron-text">FIRE SERVICES</h3>
+                        <span class="h-number orbitron-text">101</span>
+                        <p>Fire brigade & Hazmat response</p>
+                    </div>
+                    <a href="tel:101" class="btn btn-crimson btn-sm"><i class="fa-solid fa-phone"></i> CALL 101</a>
+                </div>
+
+                <div class="helpline-card glass-card cyber-hud-card">
+                    <div class="hud-corner top-left"></div>
+                    <div class="h-icon purple"><i class="fa-solid fa-building-circle-exclamation"></i></div>
+                    <div class="h-details">
+                        <h3 class="orbitron-text">STATE DISASTER (SDMA)</h3>
+                        <span class="h-number orbitron-text">1070</span>
+                        <p>State control room emergency response</p>
+                    </div>
+                    <a href="tel:1070" class="btn btn-plasma btn-sm"><i class="fa-solid fa-phone"></i> CALL 1070</a>
+                </div>
+
+                <div class="helpline-card glass-card cyber-hud-card">
+                    <div class="hud-corner top-left"></div>
+                    <div class="h-icon emerald"><i class="fa-solid fa-gas-pump"></i></div>
+                    <div class="h-details">
+                        <h3 class="orbitron-text">LPG GAS LEAK LINE</h3>
+                        <span class="h-number orbitron-text">1906</span>
+                        <p>24x7 Gas leak emergency line</p>
+                    </div>
+                    <a href="tel:1906" class="btn btn-emerald btn-sm"><i class="fa-solid fa-phone"></i> CALL 1906</a>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- CORNER FLOATING AI CHATBOT DRAWER (AAPDASAHAYAK AI ASSISTANT) -->
-    <div class="corner-chatbot-drawer">
-        <button id="fabBtn" class="chat-fab" onclick="toggleCornerChat()">
-            💬 AapdaSahayak AI Assistant
+    <!-- Mobile Bottom Navigation Bar -->
+    <nav class="mobile-bottom-nav hud-mobile-nav">
+        <button class="m-nav-btn active" onclick="switchToTab('tab-landing')">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
         </button>
+        <button class="m-nav-btn" onclick="switchToTab('tab-dashboard')">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Control</span>
+        </button>
+        <button class="m-nav-btn voice-fab" onclick="switchToTab('tab-ml')">
+            <i class="fa-solid fa-microphone"></i>
+            <span>Voice ML</span>
+        </button>
+        <button class="m-nav-btn" onclick="switchToTab('tab-chatbot')">
+            <i class="fa-solid fa-robot"></i>
+            <span>SurakshAI</span>
+        </button>
+        <button class="m-nav-btn" onclick="switchToTab('tab-helplines')">
+            <i class="fa-solid fa-phone-volume"></i>
+            <span>SOS Lines</span>
+        </button>
+    </nav>
 
-        <div id="cornerChatBox" class="card-glass hidden" style="width: 380px; height: 500px; display: flex; flex-direction: column; padding: 0; position: absolute; bottom: 60px; right: 0; border: 1px solid var(--primary-red-glow);">
-            <div style="background: rgba(18, 26, 43, 0.95); padding: 14px 16px; border-bottom: 1px solid var(--bg-card-border); display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-family: var(--font-heading); font-size: 14px; font-weight: 700; color: #fff;">🤖 AapdaSahayak AI Assistant</span>
-                <button onclick="toggleCornerChat()" style="background: none; border: none; color: #fff; cursor: pointer; font-size: 16px;">✕</button>
+    <!-- Footer -->
+    <footer class="app-footer hud-footer">
+        <div class="footer-content">
+            <div class="f-brand">
+                <h4 class="orbitron-text"><i class="fa-solid fa-shield-halved text-cyan"></i> SURAKSHAI DISASTER COMMAND</h4>
+                <p>Next-Gen Sci-Fi AI Disaster Management Platform built for SIH 2026.</p>
             </div>
-
-            <div id="cornerMessages" style="flex: 1; padding: 14px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
-                <div class="chat-msg-bubble bot">
-                    Namaste! I am your disaster safety assistant. Ask me anything about earthquake protocols, flood safety, fire response, gas leak precautions, or emergency helplines!
-                </div>
-            </div>
-
-            <div style="padding: 8px 12px; background: rgba(0,0,0,0.2); display: flex; gap: 6px; flex-wrap: wrap;">
-                <span class="sample-chip" style="font-size: 11px; padding: 4px 8px;" onclick="sendQuickCorner('What to do during an earthquake?')">🏚️ Earthquake</span>
-                <span class="sample-chip" style="font-size: 11px; padding: 4px 8px;" onclick="sendQuickCorner('Flood safety precautions')">🌊 Flood</span>
-                <span class="sample-chip" style="font-size: 11px; padding: 4px 8px;" onclick="sendQuickCorner('Gas leak safety rules')">🔥 Gas Leak</span>
-            </div>
-
-            <div style="padding: 10px; border-top: 1px solid var(--bg-card-border); display: flex; gap: 6px; background: rgba(10, 15, 26, 0.95);">
-                <button id="cornerMicBtn" class="mic-btn-input" style="position: static; width: 34px; height: 34px; font-size: 14px;" onclick="startVoiceInput('cornerInput')" title="Voice Speech Input">🎤</button>
-                <input type="text" id="cornerInput" class="input-text" style="padding: 6px 10px; font-size: 12px;" placeholder="Ask disaster safety question..." onkeypress="handleCornerKeyPress(event)">
-                <button class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;" onclick="sendCornerMessage()">Send</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- EMERGENCY CONTACTS DIRECTORY MODAL -->
-    <div id="emergencyContactsModal" class="modal-backdrop hidden" onclick="closeEmergencyContactsModal(event)">
-        <div class="modal-dialog" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <span style="font-size: 24px;">📞</span>
-                    <div>
-                        <h3 style="font-family: var(--font-heading); font-size: 18px; color: #fff;">National & Regional Emergency Helpline Directory</h3>
-                        <p style="font-size: 12px; color: var(--text-muted);">Instant 24x7 India Emergency Contacts & Rescue Control Rooms</p>
-                    </div>
-                </div>
-                <button onclick="closeEmergencyContactsModal()" style="background: none; border: none; color: #fff; font-size: 20px; cursor: pointer;">✕</button>
-            </div>
-
-            <div class="modal-body">
-                <input type="text" id="contactSearchInput" class="input-text" placeholder="Search emergency contact (e.g., NDRF, Police, Ambulance, Women, Railway)..." onkeyup="filterEmergencyContacts()">
-
-                <div class="contacts-grid" id="contactsGrid">
-                    <!-- National Emergency 112 -->
-                    <div class="contact-directory-card" data-name="national police 112 emergency">
-                        <div>
-                            <span class="sample-chip" style="color: #f87171; border-color: #ef4444;">🚨 All Emergency Services</span>
-                            <h4 style="color: #fff; margin-top: 8px;">National Emergency Number</h4>
-                            <div class="contact-num-large" style="color: #ef4444;">112</div>
-                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Single unified emergency response number for Police, Fire, Ambulance & Rescue across India.</p>
-                        </div>
-                        <div style="display: flex; gap: 8px;">
-                            <a href="tel:112" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;">📞 Call 112</a>
-                            <button class="btn btn-secondary" onclick="copyText('112')" style="padding: 6px 12px; font-size: 12px;">📋 Copy</button>
-                        </div>
-                    </div>
-
-                    <!-- NDRF 1078 -->
-                    <div class="contact-directory-card" data-name="ndrf national disaster response force 1078">
-                        <div>
-                            <span class="sample-chip" style="color: #93c5fd; border-color: #3b82f6;">🛟 Disaster Response</span>
-                            <h4 style="color: #fff; margin-top: 8px;">NDRF Helpline HQ</h4>
-                            <div class="contact-num-large" style="color: #60a5fa;">1078 / 011-24363260</div>
-                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">National Disaster Response Force HQ 24x7 Control Room for flood, quake & structural rescue.</p>
-                        </div>
-                        <div style="display: flex; gap: 8px;">
-                            <a href="tel:1078" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px; background: #3b82f6;">📞 Call 1078</a>
-                            <button class="btn btn-secondary" onclick="copyText('1078')" style="padding: 6px 12px; font-size: 12px;">📋 Copy</button>
-                        </div>
-                    </div>
-
-                    <!-- Ambulance 108 / 102 -->
-                    <div class="contact-directory-card" data-name="ambulance medical 108 102 health doctor">
-                        <div>
-                            <span class="sample-chip" style="color: #34d399; border-color: #10b981;">🚑 Medical Trauma</span>
-                            <h4 style="color: #fff; margin-top: 8px;">National Ambulance Service</h4>
-                            <div class="contact-num-large" style="color: #34d399;">108 / 102</div>
-                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">24x7 Emergency medical ambulance dispatch, pregnant care, and trauma transport.</p>
-                        </div>
-                        <div style="display: flex; gap: 8px;">
-                            <a href="tel:108" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px; background: #10b981;">📞 Call 108</a>
-                            <button class="btn btn-secondary" onclick="copyText('108')" style="padding: 6px 12px; font-size: 12px;">📋 Copy</button>
-                        </div>
-                    </div>
-
-                    <!-- Fire 101 -->
-                    <div class="contact-directory-card" data-name="fire brigade 101 rescue burn flames">
-                        <div>
-                            <span class="sample-chip" style="color: #fdba74; border-color: #f97316;">🚒 Fire & Rescue</span>
-                            <h4 style="color: #fff; margin-top: 8px;">Fire Rescue Services</h4>
-                            <div class="contact-num-large" style="color: #fb923c;">101</div>
-                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Municipal Fire Brigade control room for building fires, chemical leaks, and structural extrication.</p>
-                        </div>
-                        <div style="display: flex; gap: 8px;">
-                            <a href="tel:101" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px; background: #f97316;">📞 Call 101</a>
-                            <button class="btn btn-secondary" onclick="copyText('101')" style="padding: 6px 12px; font-size: 12px;">📋 Copy</button>
-                        </div>
-                    </div>
-
-                    <!-- SDMA State Control Room 1070 -->
-                    <div class="contact-directory-card" data-name="sdma state disaster management authority control room 1070">
-                        <div>
-                            <span class="sample-chip" style="color: #c084fc; border-color: #a855f7;">🏛️ State Control Room</span>
-                            <h4 style="color: #fff; margin-top: 8px;">State Disaster Authority (SDMA)</h4>
-                            <div class="contact-num-large" style="color: #c084fc;">1070</div>
-                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">State Emergency Operations Center (SEOC) for district relief coordination and warnings.</p>
-                        </div>
-                        <div style="display: flex; gap: 8px;">
-                            <a href="tel:1070" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px; background: #a855f7;">📞 Call 1070</a>
-                            <button class="btn btn-secondary" onclick="copyText('1070')" style="padding: 6px 12px; font-size: 12px;">📋 Copy</button>
-                        </div>
-                    </div>
-
-                    <!-- Women Helpline 1091 -->
-                    <div class="contact-directory-card" data-name="women safety 1091 181 distress">
-                        <div>
-                            <span class="sample-chip" style="color: #f472b6; border-color: #ec4899;">🛡️ Women Safety</span>
-                            <h4 style="color: #fff; margin-top: 8px;">National Women Helpline</h4>
-                            <div class="contact-num-large" style="color: #f472b6;">1091 / 181</div>
-                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">24x7 Confidential helpline for women in distress, harassment, or disaster evacuation assistance.</p>
-                        </div>
-                        <div style="display: flex; gap: 8px;">
-                            <a href="tel:1091" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px; background: #ec4899;">📞 Call 1091</a>
-                            <button class="btn btn-secondary" onclick="copyText('1091')" style="padding: 6px 12px; font-size: 12px;">📋 Copy</button>
-                        </div>
-                    </div>
-
-                    <!-- Childline 1098 -->
-                    <div class="contact-directory-card" data-name="child children protection 1098">
-                        <div>
-                            <span class="sample-chip" style="color: #fbbf24; border-color: #f59e0b;">👶 Child Protection</span>
-                            <h4 style="color: #fff; margin-top: 8px;">National Childline</h4>
-                            <div class="contact-num-large" style="color: #fbbf24;">1098</div>
-                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">24x7 Free emergency phone service for children in need of care, relief, and protection.</p>
-                        </div>
-                        <div style="display: flex; gap: 8px;">
-                            <a href="tel:1098" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px; background: #f59e0b;">📞 Call 1098</a>
-                            <button class="btn btn-secondary" onclick="copyText('1098')" style="padding: 6px 12px; font-size: 12px;">📋 Copy</button>
-                        </div>
-                    </div>
-
-                    <!-- Coast Guard 1093 -->
-                    <div class="contact-directory-card" data-name="coast guard maritime ocean sea flood 1093 1554">
-                        <div>
-                            <span class="sample-chip" style="color: #38bdf8; border-color: #0284c7;">⚓ Maritime & Coast</span>
-                            <h4 style="color: #fff; margin-top: 8px;">Indian Coast Guard Rescue</h4>
-                            <div class="contact-num-large" style="color: #38bdf8;">1093 / 1554</div>
-                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Search and rescue at sea, coastal floods, fisherman safety, and cyclone maritime warnings.</p>
-                        </div>
-                        <div style="display: flex; gap: 8px;">
-                            <a href="tel:1093" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px; background: #0284c7;">📞 Call 1093</a>
-                            <button class="btn btn-secondary" onclick="copyText('1093')" style="padding: 6px 12px; font-size: 12px;">📋 Copy</button>
-                        </div>
-                    </div>
-
-                    <!-- Railway Helpline 139 -->
-                    <div class="contact-directory-card" data-name="railway train station security medical 139">
-                        <div>
-                            <span class="sample-chip" style="color: #a7f3d0; border-color: #059669;">🚆 Railway Emergency</span>
-                            <h4 style="color: #fff; margin-top: 8px;">Indian Railways Helpline</h4>
-                            <div class="contact-num-large" style="color: #a7f3d0;">139</div>
-                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Integrated railway security, medical emergency, and track waterlogging emergency helpline.</p>
-                        </div>
-                        <div style="display: flex; gap: 8px;">
-                            <a href="tel:139" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px; background: #059669;">📞 Call 139</a>
-                            <button class="btn btn-secondary" onclick="copyText('139')" style="padding: 6px 12px; font-size: 12px;">📋 Copy</button>
-                        </div>
-                    </div>
-
-                    <!-- Tele-MANAS 14416 -->
-                    <div class="contact-directory-card" data-name="mental health tele manas stress panic trauma 14416">
-                        <div>
-                            <span class="sample-chip" style="color: #e879f9; border-color: #c084fc;">🧠 Mental Health Relief</span>
-                            <h4 style="color: #fff; margin-top: 8px;">Tele-MANAS Trauma Care</h4>
-                            <div class="contact-num-large" style="color: #e879f9;">14416 / 1-800-891-4416</div>
-                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">24x7 Toll-free psychological first-aid and post-disaster trauma counseling.</p>
-                        </div>
-                        <div style="display: flex; gap: 8px;">
-                            <a href="tel:14416" class="btn btn-primary" style="padding: 6px 12px; font-size: 12px; background: #c084fc;">📞 Call 14416</a>
-                            <button class="btn btn-secondary" onclick="copyText('14416')" style="padding: 6px 12px; font-size: 12px;">📋 Copy</button>
-                        </div>
-                    </div>
-                </div>
+            <div class="f-links">
+                <a onclick="switchToTab('tab-landing')">OVERVIEW</a>
+                <a onclick="switchToTab('tab-dashboard')">CONTROL ROOM</a>
+                <a onclick="switchToTab('tab-ml')">ML CLASSIFIER</a>
+                <a onclick="switchToTab('tab-chatbot')">SURAKSHAI AI</a>
+                <a onclick="switchToTab('tab-helplines')">HELPLINES</a>
             </div>
         </div>
-    </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 SURAKSHAI SYS-v2030. Cyberpunk Command Platform for Smart India Hackathon.</p>
+        </div>
+    </footer>
 
-    <!-- MAIN JAVASCRIPT LOGIC -->
-    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="i18n.js?v=2030"></script>
+    <script src="app.js?v=2030"></script>
 </body>
 </html>

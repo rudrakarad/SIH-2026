@@ -18,7 +18,7 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=2030">
 </head>
 <body class="dark-theme scifi-hud">
 
@@ -55,16 +55,22 @@
         </div>
 
         <div class="header-status-group">
+            <div class="hud-lang-toggle">
+                <i class="fa-solid fa-globe text-cyan"></i>
+                <button class="lang-btn active" data-lang="en" onclick="changeAppLanguage('en')">EN</button>
+                <button class="lang-btn" data-lang="hi" onclick="changeAppLanguage('hi')">हिंदी</button>
+                <button class="lang-btn" data-lang="mr" onclick="changeAppLanguage('mr')">मराठी</button>
+            </div>
             <a href="tel:112" class="btn btn-sos-glow" title="Instant Emergency SOS Dispatch">
                 <i class="fa-solid fa-phone-volume"></i> <span>SOS 112</span>
             </a>
             <div class="status-pill online hide-mobile">
                 <span class="pulse-dot green"></span>
-                <span id="backend-status-text">SYSTEM ONLINE</span>
+                <span id="backend-status-text" data-i18n="system_online">SYSTEM ONLINE</span>
             </div>
             <div class="status-pill alert-level hide-mobile" id="global-risk-pill">
                 <i class="fa-solid fa-triangle-exclamation"></i>
-                <span id="global-risk-level">RISK: SCANNING</span>
+                <span id="global-risk-level" data-i18n="risk_scanning">RISK: SCANNING</span>
             </div>
             <div class="live-clock hide-mobile" id="live-clock">00:00:00 UTC</div>
         </div>
@@ -73,35 +79,35 @@
     <!-- Main Futuristic Navigation Bar -->
     <nav class="nav-tabs-bar desktop-nav hud-nav">
         <button class="nav-tab active" data-tab="tab-landing">
-            <i class="fa-solid fa-house"></i> <span>OVERVIEW</span>
+            <i class="fa-solid fa-house"></i> <span data-i18n="nav_overview">OVERVIEW</span>
         </button>
 
         <button class="nav-tab" data-tab="tab-dashboard">
-            <i class="fa-solid fa-chart-line"></i> <span>CONTROL ROOM</span>
+            <i class="fa-solid fa-chart-line"></i> <span data-i18n="nav_control_room">CONTROL ROOM</span>
         </button>
 
         <button class="nav-tab" data-tab="tab-ml">
-            <i class="fa-solid fa-brain"></i> <span>ML CLASSIFIER</span>
+            <i class="fa-solid fa-brain"></i> <span data-i18n="nav_ml_classifier">ML CLASSIFIER</span>
         </button>
 
         <button class="nav-tab" data-tab="tab-chatbot">
-            <i class="fa-solid fa-robot"></i> <span>SURAKSHAI AI</span>
+            <i class="fa-solid fa-robot"></i> <span data-i18n="nav_surakshai_ai">SURAKSHAI AI</span>
         </button>
 
         <button class="nav-tab" data-tab="tab-emergency">
-            <i class="fa-solid fa-truck-medical"></i> <span>RESOURCE ENGINE</span>
+            <i class="fa-solid fa-truck-medical"></i> <span data-i18n="nav_resource_engine">RESOURCE ENGINE</span>
         </button>
 
         <button class="nav-tab" data-tab="tab-advisory">
-            <i class="fa-solid fa-map-location-dot"></i> <span>GIS ADVISORY</span>
+            <i class="fa-solid fa-map-location-dot"></i> <span data-i18n="nav_gis_advisory">GIS ADVISORY</span>
         </button>
 
         <button class="nav-tab" data-tab="tab-alerts">
-            <i class="fa-solid fa-bell"></i> <span>SMART ALERTS</span>
+            <i class="fa-solid fa-bell"></i> <span data-i18n="nav_smart_alerts">SMART ALERTS</span>
         </button>
 
         <button class="nav-tab" data-tab="tab-helplines">
-            <i class="fa-solid fa-phone-volume"></i> <span>HELPLINES</span>
+            <i class="fa-solid fa-phone-volume"></i> <span data-i18n="nav_helplines">HELPLINES</span>
         </button>
     </nav>
 
@@ -159,6 +165,18 @@
                         </div>
                     </div>
                     <div class="radar-label"><span class="pulse-dot green"></span> SURVEILLANCE RADAR LIVE</div>
+                </div>
+            </div>
+
+            <!-- Hero Language Selector Bar -->
+            <div class="hero-lang-bar glass-card mt-20">
+                <div class="hero-lang-title">
+                    <i class="fa-solid fa-globe text-cyan"></i> SELECT SYSTEM LANGUAGE / भाषा चुनें / भाषा निवडा:
+                </div>
+                <div class="lang-btn-group">
+                    <button class="lang-btn active" data-lang="en" onclick="changeAppLanguage('en')">🇬🇧 English</button>
+                    <button class="lang-btn" data-lang="hi" onclick="changeAppLanguage('hi')">🇮🇳 हिंदी (Hindi)</button>
+                    <button class="lang-btn" data-lang="mr" onclick="changeAppLanguage('mr')">🇮🇳 मराठी (Marathi)</button>
                 </div>
             </div>
 
@@ -452,6 +470,11 @@
                     <div class="chat-title">
                         <h3 class="orbitron-text">SurakshAI Neural Guide</h3>
                         <span class="subtext"><span class="pulse-dot green"></span> Neural Engine Active (Groq / Gemini / In-Browser NLP)</span>
+                    </div>
+                    <div class="lang-btn-group-header" style="margin-left: auto;">
+                        <button class="lang-btn active" data-lang="en" onclick="changeAppLanguage('en')">🇬🇧 English</button>
+                        <button class="lang-btn" data-lang="hi" onclick="changeAppLanguage('hi')">🇮🇳 हिंदी</button>
+                        <button class="lang-btn" data-lang="mr" onclick="changeAppLanguage('mr')">🇮🇳 मराठी</button>
                     </div>
                 </div>
 
@@ -804,6 +827,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="app.js"></script>
+    <script src="i18n.js?v=2030"></script>
+    <script src="app.js?v=2030"></script>
 </body>
 </html>
